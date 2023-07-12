@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd87c582e10d2da4e952c189fd9e1b2c, type: 3}
+  m_Name: 6
+  m_EditorClassIdentifier: 
+  title: Gen 7
+  cost: 2100
+  rate: 17.5
+  costMod: 1.5
+  rateMod: 1.3
+  image: {fileID: 21300000, guid: 052f906ffdc3dc1459594c4476fd49b7, type: 3}
+  count: 0
