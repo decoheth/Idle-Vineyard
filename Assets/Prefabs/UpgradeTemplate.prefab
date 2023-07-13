@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 1145476663351261415}
   - component: {fileID: 5328386790916350210}
   m_Layer: 5
-  m_Name: UpgradeItemTemplate
+  m_Name: UpgradeTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -160,6 +160,7 @@ MonoBehaviour:
   listIndex: 0
   countVal: 1
   totalRateVal: 0
+  genFlagVal: 0
 --- !u!1 &437073940340815697
 GameObject:
   m_ObjectHideFlags: 0

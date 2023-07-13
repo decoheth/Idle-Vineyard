@@ -10,13 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cafe48781c8ae6e4889a871931a6110a, type: 3}
-  m_Name: 5 Fancy Sprinkler
+  m_Name: 4-6
   m_EditorClassIdentifier: 
-  title: Sprinklers
-  description: Pissing Robots.
-  cost: 8437.5
-  clickMod: 1
-  clickBonus: 38.06
-  autoMod: 1
-  autoBonus: 156.25
-  image: {fileID: 21300000, guid: e409e31e5817f9e4fb21c4439b8851b7, type: 3}
+  title: jjjjjjj
+  description: 
+  cost: 0
+  image: {fileID: 0}
+  flag: 0

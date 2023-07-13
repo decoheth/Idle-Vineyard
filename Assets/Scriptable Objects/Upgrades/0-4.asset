@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cafe48781c8ae6e4889a871931a6110a, type: 3}
-  m_Name: 3 Barn
+  m_Name: 0-4
   m_EditorClassIdentifier: 
-  title: Barn
-  description: 
-  cost: 937.5
+  title: Farm Hands
+  description: Extra hands help hurry it up.
+  cost: 2812.5
   clickMod: 1
   clickBonus: 5
   autoMod: 1
-  autoBonus: 25
-  image: {fileID: 21300000, guid: f09082417e93dec4b9eafc06334e647a, type: 3}
+  autoBonus: 62.5
+  image: {fileID: 21300000, guid: e409e31e5817f9e4fb21c4439b8851b7, type: 3}

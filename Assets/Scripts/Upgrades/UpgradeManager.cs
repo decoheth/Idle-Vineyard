@@ -15,7 +15,7 @@ public class UpgradeManager : MonoBehaviour
     public GameObject[] generatorPanelsGO;
     public Button[] generatorPurchaseBtns;
     
-    public UpgradeItemsSO[] upgradeItemsSO;
+    public UpgradeSO[] upgradeSO;
     public UpgradeTemplate[] upgradePanels;
     public GameObject[] upgradePanelsGO;
     public Button[] PurchaseBtns;
@@ -23,18 +23,12 @@ public class UpgradeManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Enable necessary number of menu panels
+        // Instantiate generators from prefab
 
-        // Generators
+        // Enable necessary number of Generators
         for (int i = 0; i < generatorSO.Length; i++)
         {
            generatorPanelsGO[i].SetActive(true); 
-        }
-
-        // Upgrades
-        for (int i = 0; i < upgradeItemsSO.Length; i++)
-        {
-           upgradePanelsGO[i].SetActive(true); 
         }
 
         // Load panels with Scriptable Object data
@@ -56,10 +50,10 @@ public class UpgradeManager : MonoBehaviour
         }
     
         // Upgrades
-        for (int i = 0; i < upgradeItemsSO.Length; i++)
+        for (int i = 0; i < upgradeSO.Length; i++)
         {
             // Check if user has enough gold
-            if (GameManager.instance.gold >= upgradeItemsSO[i].cost)  
+            if (GameManager.instance.gold >= upgradeSO[i].cost)  
                 // Allow upgrade to be purchased
                 PurchaseBtns[i].interactable = true;
             else 
@@ -86,6 +80,14 @@ public class UpgradeManager : MonoBehaviour
             // increase cost of next purchase by cost modifier
             generatorPanels[BtnNo].rateVal *= generatorPanels[BtnNo].rateModVal;
 
+            
+            // Check if count is a multiple of 25
+            if(generatorSO[BtnNo].count % 25 == 0)
+            {
+                // Pass flag to unlock upgrade
+                GeneratorFlag(generatorSO[BtnNo].count, generatorPanels[BtnNo].genFlagVal);
+            }
+
             // Update generator text
             generatorPanels[BtnNo].countText.text = "No:" + generatorSO[BtnNo].count.ToString();
             generatorPanels[BtnNo].effectText.text = "+" + GameManager.instance.ConvertNum(generatorSO[BtnNo].totalRate);
@@ -93,19 +95,14 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
-    public void PurchaseItem(int BtnNo)
+    public void PurchaseUpgrade(int BtnNo)
     {
-
-
-        if (GameManager.instance.gold >= upgradeItemsSO[BtnNo].cost)
+        if (GameManager.instance.gold >= upgradeSO[BtnNo].cost)
         {
-            GameManager.instance.RemoveGold(upgradeItemsSO[BtnNo].cost);
+            GameManager.instance.RemoveGold(upgradeSO[BtnNo].cost);
 
-            // Grant Upgrades
-            GM.GetComponent<ClickManager>().IncreaseAutoRateMod(upgradeItemsSO[BtnNo].autoMod);
-            GM.GetComponent<ClickManager>().IncreaseAutoRateBonus(upgradeItemsSO[BtnNo].autoBonus);
-            GM.GetComponent<ClickManager>().IncreaseGoldPerClickMod(upgradeItemsSO[BtnNo].clickMod);
-            GM.GetComponent<ClickManager>().IncreaseGoldPerClickBonus(upgradeItemsSO[BtnNo].clickBonus);
+            // Pass upgrade flag
+            UpgradeFlag(upgradePanels[BtnNo].flagVal);
 
             // Remove from purchased upgrade from list
             upgradePanelsGO[BtnNo].SetActive(false);
@@ -133,24 +130,112 @@ public class UpgradeManager : MonoBehaviour
             generatorPanels[i].costModVal = generatorSO[i].costMod;
             generatorPanels[i].rateModVal = generatorSO[i].rateMod;
             generatorPanels[i].listIndex = i;
+            generatorPanels[i].genFlagVal = generatorSO[i].genFlag;
 
 
         }
 
         // Upgrades
-        for (int i = 0; i < upgradeItemsSO.Length; i++)
+        for (int i = 0; i < upgradeSO.Length; i++)
         {
-            upgradePanels[i].titleText.text = upgradeItemsSO[i].title;
-            upgradePanels[i].descriptionText.text = upgradeItemsSO[i].description;
-            upgradePanels[i].costText.text = "Cost: " + GameManager.instance.ConvertNum(upgradeItemsSO[i].cost);
-            upgradePanels[i].upgradeImage.sprite = upgradeItemsSO[i].image;
-            upgradePanels[i].clickModVal = upgradeItemsSO[i].clickMod;
-            upgradePanels[i].clickBonusVal = upgradeItemsSO[i].clickBonus;
-            upgradePanels[i].autoModVal = upgradeItemsSO[i].autoMod;
-            upgradePanels[i].autoBonusVal = upgradeItemsSO[i].autoBonus;
+            upgradePanels[i].titleText.text = upgradeSO[i].title;
+            upgradePanels[i].descriptionText.text = upgradeSO[i].description;
+            upgradePanels[i].costText.text = "Cost: " + GameManager.instance.ConvertNum(upgradeSO[i].cost);
+            upgradePanels[i].upgradeImage.sprite = upgradeSO[i].image;
             upgradePanels[i].listIndex = i;
+            upgradePanels[i].flagVal = upgradeSO[i].flag;
         }
         
         CheckPurchaseable();
+    }
+
+    public void GeneratorFlag(int count, int flag)
+    {
+        Debug.Log("Count:" + count + "Flag:" + flag);
+        int a;
+        int b;
+        // Switch statement to check which generator is being passed
+        switch(flag)
+        {
+            case 0:
+                // Check count value, in increments of 25
+                a = count / 25;
+                a -= 1;
+                b = (flag * 10) + a;
+                upgradePanelsGO[b].SetActive(true);
+                break;
+
+            case 1:
+                // Check count value, in increments of 25
+                a = count / 25;
+                a -= 1;
+                b = (flag * 10) + a;
+                upgradePanelsGO[b].SetActive(true);
+                break;
+
+            case 2:
+                // Check count value, in increments of 25
+                a = count / 25;
+                a -= 1;
+                b = (flag * 10) + a;
+                upgradePanelsGO[b].SetActive(true);
+                break;
+
+            case 3:
+                // Check count value, in increments of 25
+                a = count / 25;
+                a -= 1;
+                b = (flag * 10) + a;
+                upgradePanelsGO[b].SetActive(true);
+                break;
+
+            case 4:
+                // Check count value, in increments of 25
+                a = count / 25;
+                a -= 1;
+                b = (flag * 10) + a;
+                upgradePanelsGO[b].SetActive(true);
+                break;
+
+            case 5:
+                // Check count value, in increments of 25
+                a = count / 25;
+                a -= 1;
+                b = (flag * 10) + a;
+                upgradePanelsGO[b].SetActive(true);
+                break;
+
+            case 6:
+                // Check count value, in increments of 25
+                a = count / 25;
+                a -= 1;
+                b = (flag * 10) + a;
+                upgradePanelsGO[b].SetActive(true);
+                break;
+
+            case 7:
+                // Check count value, in increments of 25
+                a = count / 25;
+                a -= 1;
+                b = (flag * 10) + a;
+                upgradePanelsGO[b].SetActive(true);
+                break;
+        
+        }   
+    }
+
+
+    public void UpgradeFlag(int flag)
+    {
+        switch(flag)
+        {
+            case 0:
+                // Do stuff
+                break;
+
+                
+            default:
+                break;
+        }
     }
 }

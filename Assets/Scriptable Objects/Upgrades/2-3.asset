@@ -10,13 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cafe48781c8ae6e4889a871931a6110a, type: 3}
-  m_Name: 0 Trellis
+  m_Name: 2-3
   m_EditorClassIdentifier: 
-  title: Trellis
+  title: 
   description: 
-  cost: 50
-  clickMod: 1
-  clickBonus: 5
-  autoMod: 1
-  autoBonus: 0
+  cost: 0
   image: {fileID: 0}
+  flag: 0

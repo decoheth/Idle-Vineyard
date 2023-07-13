@@ -20,3 +20,4 @@ MonoBehaviour:
   image: {fileID: 21300000, guid: d77c1becc97990146869730a618e49e4, type: 3}
   count: 0
   totalRate: 0
+  genFlag: 4

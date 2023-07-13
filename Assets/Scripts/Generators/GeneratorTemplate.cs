@@ -19,5 +19,6 @@ public class GeneratorTemplate : MonoBehaviour
     public int listIndex = 0;
     public int countVal = 0;
     public double totalRateVal = 0d;
+    public int genFlagVal;
 }
 

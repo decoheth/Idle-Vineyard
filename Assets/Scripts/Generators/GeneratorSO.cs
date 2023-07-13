@@ -14,4 +14,5 @@ public class GeneratorSO : ScriptableObject
     public Sprite image;
     public int count;
     public double totalRate;
+    public int genFlag;
 }
