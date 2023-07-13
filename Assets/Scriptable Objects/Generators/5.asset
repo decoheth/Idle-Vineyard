@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd87c582e10d2da4e952c189fd9e1b2c, type: 3}
   m_Name: 5
   m_EditorClassIdentifier: 
-  title: Gen 6
-  cost: 1200
-  rate: 15
-  costMod: 1.4
-  rateMod: 1.2
-  image: {fileID: 21300000, guid: 1bd05c61e223d2e4a922397e6a464895, type: 3}
+  title: Advertising
+  cost: 1244160
+  rate: 2100
+  costMod: 1.11
+  rateMod: 1
+  image: {fileID: 21300000, guid: 052f906ffdc3dc1459594c4476fd49b7, type: 3}
   count: 0
+  totalRate: 0

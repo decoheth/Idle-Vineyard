@@ -15,12 +15,18 @@ public class UIManager : MonoBehaviour
     public GameObject CaskTab2;
     public GameObject CaskTab3;
 
+    public GameObject SettingsButton;
+    public GameObject VintageButton;
+
     public static UIManager instance;
 
     void Awake() 
     {
         instance = this;
 
+        // Enable buttons on startup
+        SettingsButton.SetActive(true);
+        VintageButton.SetActive(true);
         // Disable menus on startup
         UpgradeMenu.SetActive(false);
         CaskMenu.SetActive(false);
@@ -36,6 +42,7 @@ public class UIManager : MonoBehaviour
     public void ToggleUpgradeMenu()
     {
         UpgradeMenu.SetActive(!UpgradeMenu.activeSelf);
+        ToggleOtherUI();
     }
 
     public void SetUpgradeTab1()
@@ -64,6 +71,7 @@ public class UIManager : MonoBehaviour
     public void ToggleCaskMenu()
     {
         CaskMenu.SetActive(!CaskMenu.activeSelf);
+        ToggleOtherUI();
     }
 
     public void SetCaskTab1()
@@ -85,5 +93,11 @@ public class UIManager : MonoBehaviour
         CaskTab1.SetActive(false);
         CaskTab2.SetActive(false);
         CaskTab3.SetActive(true);
+    }
+
+    public void ToggleOtherUI()
+    {
+        SettingsButton.SetActive(!SettingsButton.activeSelf);
+        VintageButton.SetActive(!VintageButton.activeSelf);
     }
 }

@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd87c582e10d2da4e952c189fd9e1b2c, type: 3}
   m_Name: 3
   m_EditorClassIdentifier: 
-  title: Gen 4
-  cost: 305
-  rate: 10
-  costMod: 1.4
-  rateMod: 1.01
+  title: Hired Labour
+  cost: 8640
+  rate: 360
+  costMod: 1.13
+  rateMod: 1
   image: {fileID: 21300000, guid: 1bd05c61e223d2e4a922397e6a464895, type: 3}
   count: 0
+  totalRate: 0

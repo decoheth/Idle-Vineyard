@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd87c582e10d2da4e952c189fd9e1b2c, type: 3}
   m_Name: 2
   m_EditorClassIdentifier: 
-  title: Gen 3
-  cost: 129
-  rate: 7.5
-  costMod: 1.4
-  rateMod: 1.01
+  title: Fertiliser
+  cost: 720
+  rate: 90
+  costMod: 1.14
+  rateMod: 1
   image: {fileID: 21300000, guid: cfd9455b2141d7246b97f0cc4118a8d3, type: 3}
   count: 0
   totalRate: 0
