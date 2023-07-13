@@ -9,22 +9,27 @@ public class UpgradeManager : MonoBehaviour
     // Game Manager object
     public GameObject GM;
 
+    [Header("Generators")]
     public GeneratorSO[] generatorSO;
     [SerializeField] GameObject generatorPrefab;
-    [SerializeField] GameObject parentCanvasObj;
+    [SerializeField] GameObject parentCanvasObjGen;
     private List<Button> generatorPurchaseBtns = new List<Button>();
     private List<GeneratorTemplate> generatorPanels = new List<GeneratorTemplate>();
     private List<GameObject> generatorPanelsGO = new List<GameObject>();
     
+    [Header("Upgrades")]
     public UpgradeSO[] upgradeSO;
-    public UpgradeTemplate[] upgradePanels;
-    public GameObject[] upgradePanelsGO;
-    public Button[] PurchaseBtns;
+    [SerializeField] GameObject upgradePrefab;
+    [SerializeField] GameObject parentCanvasObjUpgrade;
+    private List<Button> upgradePurchaseBtns = new List<Button>();
+    private List<UpgradeTemplate> upgradePanels = new List<UpgradeTemplate>();
+    private List<GameObject> upgradePanelsGO = new List<GameObject>();
+
 
     // Start is called before the first frame update
     void Start()
     {
-        // Instantiate generators from prefab
+        // Instantiate from prefab
 
         // Enable necessary number of Generators
         for (int i = 0; i < generatorSO.Length; i++)
@@ -32,9 +37,8 @@ public class UpgradeManager : MonoBehaviour
             //genName = "Gen_" + i;
             var gen = Instantiate (generatorPrefab, transform.position , Quaternion.identity);
             // Set menu panel as parent
-            gen.transform.SetParent(parentCanvasObj.transform, false);
+            gen.transform.SetParent(parentCanvasObjGen.transform, false);
 
-            
             // Set button behaviour
             Button genBtn = gen.GetComponent<Button>();
             int tmp = i;
@@ -46,7 +50,30 @@ public class UpgradeManager : MonoBehaviour
             generatorPanelsGO.Add(gen as GameObject);
             // Add to Template list
             generatorPanels.Add(gen.GetComponent<GeneratorTemplate>() as GeneratorTemplate);
+        }
 
+        // Enable necessary number of Upgrades
+        for (int i = 0; i < upgradeSO.Length; i++)
+        {
+            //genName = "Gen_" + i;
+            var upgrade = Instantiate (upgradePrefab, transform.position , Quaternion.identity);
+            // Set menu panel as parent
+            upgrade.transform.SetParent(parentCanvasObjUpgrade.transform, false);
+
+            // Set button behaviour
+            Button upgradeBtn = upgrade.GetComponent<Button>();
+            int tmp = i;
+            upgradeBtn.onClick.AddListener(() => PurchaseUpgrade(tmp));
+
+            // Add to Button list
+            upgradePurchaseBtns.Add(upgradeBtn as Button);
+            // Add to GameObject list
+            upgradePanelsGO.Add(upgrade as GameObject);
+            // Add to Template list
+            upgradePanels.Add(upgrade.GetComponent<UpgradeTemplate>() as UpgradeTemplate);
+
+            //Disable all panels
+            upgrade.SetActive(false);
         }
 
         // Load panels with Scriptable Object data
@@ -73,9 +100,9 @@ public class UpgradeManager : MonoBehaviour
             // Check if user has enough gold
             if (GameManager.instance.gold >= upgradeSO[i].cost)  
                 // Allow upgrade to be purchased
-                PurchaseBtns[i].interactable = true;
+                upgradePurchaseBtns[i].interactable = true;
             else 
-                PurchaseBtns[i].interactable = false;
+                upgradePurchaseBtns[i].interactable = false;
         }
     }
 
