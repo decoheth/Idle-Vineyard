@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,7 +33,6 @@ public class UpgradeManager : MonoBehaviour
         // Enable necessary number of Generators
         for (int i = 0; i < generatorSO.Length; i++)
         {
-            //genName = "Gen_" + i;
             var gen = Instantiate (generatorPrefab, transform.position , Quaternion.identity);
             // Set menu panel as parent
             gen.transform.SetParent(parentCanvasObjGen.transform, false);
@@ -50,6 +48,9 @@ public class UpgradeManager : MonoBehaviour
             generatorPanelsGO.Add(gen as GameObject);
             // Add to Template list
             generatorPanels.Add(gen.GetComponent<GeneratorTemplate>() as GeneratorTemplate);
+
+            //Enable all panels
+            gen.SetActive(true);
         }
 
         // Enable necessary number of Upgrades
