@@ -9,11 +9,12 @@ public class UpgradeManager : MonoBehaviour
     // Game Manager object
     public GameObject GM;
 
-
     public GeneratorSO[] generatorSO;
-    public GeneratorTemplate[] generatorPanels;
-    public GameObject[] generatorPanelsGO;
-    public Button[] generatorPurchaseBtns;
+    [SerializeField] GameObject generatorPrefab;
+    [SerializeField] GameObject parentCanvasObj;
+    private List<Button> generatorPurchaseBtns = new List<Button>();
+    private List<GeneratorTemplate> generatorPanels = new List<GeneratorTemplate>();
+    private List<GameObject> generatorPanelsGO = new List<GameObject>();
     
     public UpgradeSO[] upgradeSO;
     public UpgradeTemplate[] upgradePanels;
@@ -28,7 +29,24 @@ public class UpgradeManager : MonoBehaviour
         // Enable necessary number of Generators
         for (int i = 0; i < generatorSO.Length; i++)
         {
-           generatorPanelsGO[i].SetActive(true); 
+            //genName = "Gen_" + i;
+            var gen = Instantiate (generatorPrefab, transform.position , Quaternion.identity);
+            // Set menu panel as parent
+            gen.transform.SetParent(parentCanvasObj.transform, false);
+
+            
+            // Set button behaviour
+            Button genBtn = gen.GetComponent<Button>();
+            int tmp = i;
+            genBtn.onClick.AddListener(() => PurchaseGenerator(tmp));
+
+            // Add to Button list
+            generatorPurchaseBtns.Add(genBtn as Button);
+            // Add to GameObject list
+            generatorPanelsGO.Add(gen as GameObject);
+            // Add to Template list
+            generatorPanels.Add(gen.GetComponent<GeneratorTemplate>() as GeneratorTemplate);
+
         }
 
         // Load panels with Scriptable Object data
@@ -63,8 +81,6 @@ public class UpgradeManager : MonoBehaviour
 
     public void PurchaseGenerator(int BtnNo)
     {
-
-
         if (GameManager.instance.gold >= generatorPanels[BtnNo].costVal)
         {
             GameManager.instance.RemoveGold(generatorPanels[BtnNo].costVal);
@@ -92,7 +108,7 @@ public class UpgradeManager : MonoBehaviour
             generatorPanels[BtnNo].countText.text = "No:" + generatorSO[BtnNo].count.ToString();
             generatorPanels[BtnNo].effectText.text = "+" + GameManager.instance.ConvertNum(generatorSO[BtnNo].totalRate);
             generatorPanels[BtnNo].costText.text = "Cost:" + GameManager.instance.ConvertNum(generatorPanels[BtnNo].costVal);
-        }
+	    } 
     }
 
     public void PurchaseUpgrade(int BtnNo)
@@ -151,7 +167,6 @@ public class UpgradeManager : MonoBehaviour
 
     public void GeneratorFlag(int count, int flag)
     {
-        Debug.Log("Count:" + count + "Flag:" + flag);
         int a;
         int b;
         // Switch statement to check which generator is being passed
@@ -233,7 +248,7 @@ public class UpgradeManager : MonoBehaviour
                 // Do stuff
                 break;
 
-                
+
             default:
                 break;
         }
