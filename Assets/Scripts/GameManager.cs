@@ -10,11 +10,16 @@ public class GameManager : MonoBehaviour
     public double gold;
 
     public TextMeshProUGUI goldText;
+
+    [Header("Managers")]
     // Upgrade Manager
     public GameObject UM;
+    // Save Manager
+    public GameObject SM;
 
     public static GameManager instance;
 
+    [Header("Settings: Audio")]
     //Audio Settings
     [Range(0.0f, 1.0f)]
     public float masterVolume;
@@ -28,8 +33,9 @@ public class GameManager : MonoBehaviour
 
     void Start() 
     {
-        // Set initial gold (saved value)
-        gold = 0.00d;
+        // Set initial gold (from saved value)
+        SaveData data = SM.GetComponent<SaveManager>().LoadGame();
+        gold = data.savedGold;
 
         fxVolume = setFXVolume * masterVolume;
         musicVolume = setMusicVolume * masterVolume;

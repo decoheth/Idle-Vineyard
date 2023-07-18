@@ -9,6 +9,13 @@ public class ClickManager : MonoBehaviour
     public double autoRate;
     public TextMeshProUGUI goldRateText;
     public double goldPerClick;
+
+    [Header("Managers")]
+    // Save Manager
+    public GameObject SM;
+    
+
+    [Header("Click Effects")]
     private Vector3 position;
     public ParticleSystem clickVFX;
     public AudioClip clickAudioFX;
@@ -18,31 +25,28 @@ public class ClickManager : MonoBehaviour
     
     void Start()
     {
+        // Load saved rate
+        SaveData data = SM.GetComponent<SaveManager>().LoadGame();
+        autoRate = data.savedRate;
+
         // Position used for the touch effects
         position = new Vector3(0, 0, 0); 
 
         audioSource = GetComponent<AudioSource>();
+
+        // Auto clicker - Call click function every 1 second
+        InvokeRepeating("AutoClick", 1.0f, 1.0f);
     }
 
 
-    void Awake() 
+    void Update()
     {
-        // Set initial auto gold rate
         if (autoRate == 0)
             goldRateText.text = "";
         else
             goldRateText.text = GameManager.instance.ConvertNum(autoRate) + " /sec";
 
 
-
-        // Auto clicker - Call click function every 1 second
-        InvokeRepeating("AutoClick", 1.0f, 1.0f);
-
-    }
-
-    void Update()
-    {
-        goldRateText.text = GameManager.instance.ConvertNum(autoRate) + " /sec";
     }
 
     void AutoClick()
