@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Cask 0
   m_EditorClassIdentifier: 
   title: Rose
-  time: 0.5
+  time: 1
   image: {fileID: 21300000, guid: 052f906ffdc3dc1459594c4476fd49b7, type: 3}
   auto: 0
+  button: {fileID: 0}
+  output: 1

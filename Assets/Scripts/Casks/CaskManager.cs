@@ -87,8 +87,8 @@ public class CaskManager : MonoBehaviour
             else
             {
                 // Allow the cask to be collected
-                // Add one to stock
-                stock += 1;
+                // Add output to stock
+                stock += caskPanel[i].output;
                 // Reset progress
                 caskPanel[i].progress = 0;
                 // Reset Timer
@@ -116,6 +116,7 @@ public class CaskManager : MonoBehaviour
             caskPanel[i].rate = caskSO[i].time;
             caskPanel[i].index = i;
             caskPanel[i].auto = caskSO[i].auto;
+            caskPanel[i].output = caskSO[i].output;
             caskPanel[i].startTime = sysDateTime;
             caskPanel[i].progress = 0;
             //caskPanel[i].caskButton = caskSO[i].button;

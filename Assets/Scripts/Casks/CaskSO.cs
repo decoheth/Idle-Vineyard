@@ -13,6 +13,7 @@ public class CaskSO : ScriptableObject
     // change to bool
     public int auto;
     public Button button;
+    public double output;
 
 
 

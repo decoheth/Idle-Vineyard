@@ -18,6 +18,7 @@ public class CaskTemplate : MonoBehaviour
     public Image caskIcon;
     public DateTime startTime;
     public Button caskButton;
+    public double output;
 
    void Update()
    {

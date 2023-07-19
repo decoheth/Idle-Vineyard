@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 {
     [Header("Upgrades")]
 
+    public GameObject UpgradeButton;
     public GameObject UpgradeMenu;
     public GameObject UpgradeTab1;
     public GameObject UpgradeTab2;
@@ -14,11 +15,19 @@ public class UIManager : MonoBehaviour
 
     [Header("Casks")]
 
-
+    public GameObject CaskButton;
     public GameObject CaskMenu;
     public GameObject CaskTab1;
     public GameObject CaskTab2;
     public GameObject CaskTab3;
+
+    [Header("Focus")]
+    public GameObject CropsFocusButton;
+    public GameObject BuildingFocusButton;
+    public GameObject ShopFocusButton;
+    public GameObject CropsFocus;
+    public GameObject BuildingFocus;
+    public GameObject ShopFocus;
 
     [Header("Buttons")]
 
@@ -32,15 +41,22 @@ public class UIManager : MonoBehaviour
         instance = this;
 
         // Enable buttons on startup
+        UpgradeButton.SetActive(true);
+        CaskButton.SetActive(true);
         SettingsButton.SetActive(true);
         VintageButton.SetActive(true);
+        CropsFocusButton.SetActive(true);
+        BuildingFocusButton.SetActive(true);
+        ShopFocusButton.SetActive(true);
+
         // Disable menus on startup
         UpgradeMenu.SetActive(false);
         CaskMenu.SetActive(false);
 
-        // Set initial selected menu tabs
+        // Set initial selected
         SetUpgradeTab1();
         SetCaskTab1();
+        SetFocus2();
 
     }
 
@@ -106,5 +122,28 @@ public class UIManager : MonoBehaviour
     {
         SettingsButton.SetActive(!SettingsButton.activeSelf);
         VintageButton.SetActive(!VintageButton.activeSelf);
+    }
+
+
+
+    public void SetFocus1()
+    {
+        CropsFocus.SetActive(true);
+        BuildingFocus.SetActive(false);
+        ShopFocus.SetActive(false);
+    }
+
+    public void SetFocus2()
+    {
+        CropsFocus.SetActive(false);
+        BuildingFocus.SetActive(true);
+        ShopFocus.SetActive(false);
+    }
+
+    public void SetFocus3()
+    {
+        CropsFocus.SetActive(false);
+        BuildingFocus.SetActive(false);
+        ShopFocus.SetActive(true);
     }
 }
