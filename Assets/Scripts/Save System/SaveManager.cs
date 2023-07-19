@@ -12,6 +12,7 @@ public class SaveManager: MonoBehaviour
     [Header("Managers")]
     public GameObject GM;
     public GameObject CM;
+    public GameObject UM;
     
 
     void Awake()
@@ -24,26 +25,19 @@ public class SaveManager: MonoBehaviour
         double gold = GM.GetComponent<GameManager>().gold;
         double rate = GM.GetComponent<ClickManager>().autoRate;
         double goldPerClick = GM.GetComponent<ClickManager>().goldPerClick;
+        // Get generator levels
+        int[] genLevel = new int[7] {4,1,1,1,1,0,0};
+        //int[] genLevel = UM.GetComponent<UpgradeManager>().generatorSO.count;
+        //Debug.Log(UM.GetComponent<UpgradeManager>().generatorPanels);
+
         double stock = CM.GetComponent<CaskManager>().stock;
 
-        SaveData data = new SaveData(gold,rate,goldPerClick,stock);
+        SaveData data = new SaveData(gold,rate,goldPerClick,genLevel, stock);
 
         return data;
     }
 
     // Reset all saved data. For testing purposes.
-    public void ClearData ()
-    {
-        SaveData saveData = new SaveData(0, 0, 0, 0);
-
-        Debug.Log("Resetting data at " + path);
-        string json = JsonUtility.ToJson(saveData);
-
-        using StreamWriter writer = new StreamWriter(path);
-        writer.Write(json);
-
-        return;
-    }
 
     
     private void SetPaths()

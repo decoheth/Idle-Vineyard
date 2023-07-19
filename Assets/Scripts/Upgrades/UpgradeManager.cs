@@ -13,7 +13,8 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] GameObject generatorPrefab;
     [SerializeField] GameObject parentCanvasObjGen;
     private List<Button> generatorPurchaseBtns = new List<Button>();
-    private List<GeneratorTemplate> generatorPanels = new List<GeneratorTemplate>();
+    [HideInInspector]
+    public List<GeneratorTemplate> generatorPanels = new List<GeneratorTemplate>();
     private List<GameObject> generatorPanelsGO = new List<GameObject>();
     
     [Header("Upgrades")]
@@ -56,7 +57,6 @@ public class UpgradeManager : MonoBehaviour
         // Enable necessary number of Upgrades
         for (int i = 0; i < upgradeSO.Length; i++)
         {
-            //genName = "Gen_" + i;
             var upgrade = Instantiate (upgradePrefab, transform.position , Quaternion.identity);
             // Set menu panel as parent
             upgrade.transform.SetParent(parentCanvasObjUpgrade.transform, false);

@@ -12,13 +12,14 @@ public class SaveData
     public double savedGoldPerClick;
 
     public double savedStock;
-    //public int[] genLevel;
+    public int[] savedGenLevel;
 
-    public SaveData (double gold, double rate, double gpc, double stock) 
+    public SaveData (double gold, double rate, double gpc, int[] genLevel, double stock) 
     {
         savedGold = gold;
         savedRate = rate;
         savedGoldPerClick = gpc;
+        savedGenLevel = genLevel;
         savedStock = stock;
 
     }

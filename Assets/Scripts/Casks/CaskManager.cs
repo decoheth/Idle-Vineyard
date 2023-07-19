@@ -15,20 +15,25 @@ public class CaskManager : MonoBehaviour
 
     private List<Button> caskCollectBtns = new List<Button>();
     //private List<Slider> caskSlider = new List<Slider>();
+    [HideInInspector]
     public List<CaskTemplate> caskPanel = new List<CaskTemplate>();
     private List<GameObject> caskGO = new List<GameObject>();
 
     public static CaskManager instance;
-
     private DateTime sysDateTime;
 
+    public double caskValue;
     public double stock;
-    public TMP_Text stockText;
+    public TMP_Text stockText1;
+    public TMP_Text stockText2;
 
     // Start is called before the first frame update
     void Start()
     {
         sysDateTime = System.DateTime.Now;
+
+        // Set the value of a cask from saved data
+        caskValue = 500000;
 
         for (int i = 0; i < caskSO.Length; i++)
         {
@@ -57,6 +62,7 @@ public class CaskManager : MonoBehaviour
 
         // Load panels with Scriptable Object data
         LoadPanels();
+        // Load sell cask panels with dynamic text;
     }
 
     public void Update()
@@ -66,9 +72,16 @@ public class CaskManager : MonoBehaviour
         // Set stock text
         // If below 1000 (To prevent decimal)
         if (stock < 1000)
-            stockText.text = "Casks in Stock: " + stock;
-        else    
-            stockText.text = "Casks in Stock: " + GameManager.instance.ConvertNum(stock);
+        {
+            stockText1.text = "Casks in Stock: " + stock;
+            stockText2.text = "Casks in Stock: " + stock;
+        }
+        else  
+        {
+            stockText1.text = "Casks in Stock: " + GameManager.instance.ConvertNum(stock);
+            stockText2.text = "Casks in Stock: " + GameManager.instance.ConvertNum(stock);
+        }  
+
 
 
         // Cask Timers
@@ -104,7 +117,33 @@ public class CaskManager : MonoBehaviour
     }
 
 
-    //void SellCasks(caskId, int amount)
+    public void SellCasks(int amount)
+    {
+        // Decrease stok amount by amount sold
+        stock -= amount;
+        // Add gold
+        switch(amount)
+        {
+            case 1:
+                GameManager.instance.AddGold(caskValue);
+                break;
+            case 25:
+                GameManager.instance.AddGold(caskValue * 1.2);
+                break;
+            case 50:
+                GameManager.instance.AddGold(caskValue * 1.4);
+                break;
+            case 100:
+                GameManager.instance.AddGold(caskValue * 1.6);
+                break;
+            case 250:
+                GameManager.instance.AddGold(caskValue * 1.8);
+                break;
+            case 500:
+                GameManager.instance.AddGold(caskValue * 2);
+                break;
+        }
+    }
     
 
     public void LoadPanels()
