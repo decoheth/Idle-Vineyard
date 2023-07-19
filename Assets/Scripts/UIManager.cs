@@ -5,15 +5,22 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("Upgrades")]
+
     public GameObject UpgradeMenu;
     public GameObject UpgradeTab1;
     public GameObject UpgradeTab2;
     public GameObject UpgradeTab3;
 
+    [Header("Casks")]
+
+
     public GameObject CaskMenu;
     public GameObject CaskTab1;
     public GameObject CaskTab2;
     public GameObject CaskTab3;
+
+    [Header("Buttons")]
 
     public GameObject SettingsButton;
     public GameObject VintageButton;

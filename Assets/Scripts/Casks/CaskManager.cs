@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -14,17 +15,21 @@ public class CaskManager : MonoBehaviour
 
     private List<Button> caskCollectBtns = new List<Button>();
     //private List<Slider> caskSlider = new List<Slider>();
-    private List<CaskTemplate> caskPanel = new List<CaskTemplate>();
+    public List<CaskTemplate> caskPanel = new List<CaskTemplate>();
     private List<GameObject> caskGO = new List<GameObject>();
 
-    [Header("Timers")]
-
     public static CaskManager instance;
+
+    private DateTime sysDateTime;
+
+    public double stock;
+    public TMP_Text stockText;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        sysDateTime = System.DateTime.Now;
+
         for (int i = 0; i < caskSO.Length; i++)
         {
             // Instantiate from prefab
@@ -52,8 +57,49 @@ public class CaskManager : MonoBehaviour
 
         // Load panels with Scriptable Object data
         LoadPanels();
+    }
 
-        // Start cask timers
+    public void Update()
+    {
+        sysDateTime = System.DateTime.Now;
+
+        // Set stock text
+        // If below 1000 (To prevent decimal)
+        if (stock < 1000)
+            stockText.text = "Casks in Stock: " + stock;
+        else    
+            stockText.text = "Casks in Stock: " + GameManager.instance.ConvertNum(stock);
+
+
+        // Cask Timers
+        for (int i = 0; i < caskSO.Length; i++)
+        {
+            // If progress value is less than 1
+            if(caskPanel[i].progress < 1)
+            {
+                // Compare start time with current time
+                TimeSpan diffTime = sysDateTime.Subtract(caskPanel[i].startTime);
+                double diffTimeMins = diffTime.TotalMinutes;
+
+                // Compare to rate then update the progress value accordingly.
+                caskPanel[i].progress = Mathf.Clamp01(Convert.ToSingle(diffTimeMins) / caskPanel[i].rate);
+            }
+            else
+            {
+                // Allow the cask to be collected
+                // Add one to stock
+                stock += 1;
+                // Reset progress
+                caskPanel[i].progress = 0;
+                // Reset Timer
+                caskPanel[i].startTime = sysDateTime;
+                continue;
+            }
+
+
+        }
+
+
 
     }
 
@@ -69,7 +115,11 @@ public class CaskManager : MonoBehaviour
             caskPanel[i].caskIcon.sprite = caskSO[i].image;
             caskPanel[i].rate = caskSO[i].time;
             caskPanel[i].index = i;
-            //caskPanel[i].auto = caskSO[i].auto;
+            caskPanel[i].auto = caskSO[i].auto;
+            caskPanel[i].startTime = sysDateTime;
+            caskPanel[i].progress = 0;
+            //caskPanel[i].caskButton = caskSO[i].button;
         }
     }
+    
 }

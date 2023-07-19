@@ -9,7 +9,9 @@ public class SaveManager: MonoBehaviour
 
     string path = "";
 
+    [Header("Managers")]
     public GameObject GM;
+    public GameObject CM;
     
 
     void Awake()
@@ -21,9 +23,10 @@ public class SaveManager: MonoBehaviour
     {
         double gold = GM.GetComponent<GameManager>().gold;
         double rate = GM.GetComponent<ClickManager>().autoRate;
-        double goldPerClick = GM.GetComponent<ClickManager>().goldPerClick;;
+        double goldPerClick = GM.GetComponent<ClickManager>().goldPerClick;
+        double stock = CM.GetComponent<CaskManager>().stock;
 
-        SaveData data = new SaveData(gold, rate, goldPerClick);
+        SaveData data = new SaveData(gold,rate,goldPerClick,stock);
 
         return data;
     }
@@ -31,7 +34,13 @@ public class SaveManager: MonoBehaviour
     // Reset all saved data. For testing purposes.
     public void ClearData ()
     {
-        File.Delete(path);
+        SaveData saveData = new SaveData(0, 0, 0, 0);
+
+        Debug.Log("Resetting data at " + path);
+        string json = JsonUtility.ToJson(saveData);
+
+        using StreamWriter writer = new StreamWriter(path);
+        writer.Write(json);
 
         return;
     }

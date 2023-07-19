@@ -7,7 +7,10 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Game")]
+    
     public double gold;
+    public string version;
 
     public TextMeshProUGUI goldText;
 
@@ -83,7 +86,7 @@ public class GameManager : MonoBehaviour
         else if (amount >= 1000)
             value = (amount / 1000).ToString("F2") + "K"; // Thousand
         else
-            value = amount.ToString("f2");
+            value = amount.ToString("F2");
 
         return value;
     }

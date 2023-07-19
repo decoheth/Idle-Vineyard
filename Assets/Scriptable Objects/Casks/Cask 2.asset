@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Cask 2
   m_EditorClassIdentifier: 
   title: Gin
-  time: 25
+  time: 2.5
   image: {fileID: 21300000, guid: e9bf84199e985524483fa89d9a6bc247, type: 3}
+  auto: 0
