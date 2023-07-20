@@ -8,6 +8,9 @@ using TMPro;
 
 public class CaskManager : MonoBehaviour
 {
+    [Header("Managers")]
+    public GameObject SM;
+    
     [Header("Casks")]
     public CaskSO[] caskSO;
     [SerializeField] GameObject caskPrefab;
@@ -20,12 +23,17 @@ public class CaskManager : MonoBehaviour
 
     public static CaskManager instance;
     private DateTime sysDateTime;
-
-    public double caskValue;
-    public double stock;
-    public TMP_Text stockText1;
-    public TMP_Text stockText2;
     public TMP_Text stockDisplay;
+    public TMP_Text stockText1;
+
+    [Header("Sell Casks")]
+    public double stock;
+    public double caskValue;
+    public TMP_Text stockText2;
+    public List<TMP_Text> sellText = new List<TMP_Text>();
+
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +41,8 @@ public class CaskManager : MonoBehaviour
         sysDateTime = System.DateTime.Now;
 
         // Set the value of a cask from saved data
-        caskValue = 500000;
+        SaveData data = SM.GetComponent<SaveManager>().LoadGame();
+        stock = data.savedStock;
 
         for (int i = 0; i < caskSO.Length; i++)
         {
@@ -45,7 +54,9 @@ public class CaskManager : MonoBehaviour
 
 
             // Disable all buttons
-            cask.GetComponent<Button>().interactable = false;;
+            cask.GetComponent<Button>().interactable = false;
+            int tmp = i;
+            cask.GetComponent<Button>().onClick.AddListener(() => CollectCask(tmp));
             // Add to Button list
             caskCollectBtns.Add(cask.GetComponent<Button>() as Button);
             // Add to GameObject list
@@ -59,7 +70,10 @@ public class CaskManager : MonoBehaviour
 
         // Load panels with Scriptable Object data
         LoadPanels();
+
         // Load sell cask panels with dynamic text;
+        SellPanels();
+
     }
 
     public void Update()
@@ -109,7 +123,6 @@ public class CaskManager : MonoBehaviour
         }
 
 
-
     }
 
     // Not Assigned to buttons yet
@@ -122,7 +135,7 @@ public class CaskManager : MonoBehaviour
         // Reset Timer
         caskPanel[btn].startTime = sysDateTime;
         // Disable button
-        caskPanel[btn].caskButton.interactable = false;
+        caskCollectBtns[btn].interactable = false;
     }
 
     public void SellCasks(int amount)
@@ -136,19 +149,19 @@ public class CaskManager : MonoBehaviour
                 GameManager.instance.AddGold(caskValue);
                 break;
             case 25:
-                GameManager.instance.AddGold(caskValue * 1.2);
+                GameManager.instance.AddGold(caskValue * 1.5);
                 break;
             case 50:
-                GameManager.instance.AddGold(caskValue * 1.4);
+                GameManager.instance.AddGold(caskValue * 2);
                 break;
             case 100:
-                GameManager.instance.AddGold(caskValue * 1.6);
+                GameManager.instance.AddGold(caskValue * 5);
                 break;
             case 250:
-                GameManager.instance.AddGold(caskValue * 1.8);
+                GameManager.instance.AddGold(caskValue * 10);
                 break;
             case 500:
-                GameManager.instance.AddGold(caskValue * 2);
+                GameManager.instance.AddGold(caskValue * 50);
                 break;
         }
     }
@@ -170,4 +183,12 @@ public class CaskManager : MonoBehaviour
         }
     }
     
+    public void SellPanels()
+    {
+        sellText[0].text = GameManager.instance.ConvertNum(caskValue) + " per Cask";
+        sellText[1].text = GameManager.instance.ConvertNum(caskValue * 1.5) + " per Cask";
+        sellText[2].text = GameManager.instance.ConvertNum(caskValue * 2) + " per Cask";
+        sellText[3].text = GameManager.instance.ConvertNum(caskValue * 5) + " per Cask";
+        sellText[4].text = GameManager.instance.ConvertNum(caskValue * 10) + " per Cask";
+    }
 }
