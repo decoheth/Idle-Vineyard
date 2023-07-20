@@ -14,7 +14,6 @@ public class CaskManager : MonoBehaviour
     [SerializeField] GameObject parentCanvasObjCask;
 
     private List<Button> caskCollectBtns = new List<Button>();
-    //private List<Slider> caskSlider = new List<Slider>();
     [HideInInspector]
     public List<CaskTemplate> caskPanel = new List<CaskTemplate>();
     private List<GameObject> caskGO = new List<GameObject>();
@@ -26,6 +25,7 @@ public class CaskManager : MonoBehaviour
     public double stock;
     public TMP_Text stockText1;
     public TMP_Text stockText2;
+    public TMP_Text stockDisplay;
 
     // Start is called before the first frame update
     void Start()
@@ -44,13 +44,10 @@ public class CaskManager : MonoBehaviour
         
 
 
-            // Set button behaviour
-            Button caskBtn = cask.GetComponent<Button>();
-            //int tmp = i;
-            //caskBtn.onClick.AddListener(() => CollectCask(tmp));
-
+            // Disable all buttons
+            cask.GetComponent<Button>().interactable = false;;
             // Add to Button list
-            caskCollectBtns.Add(caskBtn as Button);
+            caskCollectBtns.Add(cask.GetComponent<Button>() as Button);
             // Add to GameObject list
             caskGO.Add(cask as GameObject);
             // Add to Template list
@@ -75,11 +72,13 @@ public class CaskManager : MonoBehaviour
         {
             stockText1.text = "Casks in Stock: " + stock;
             stockText2.text = "Casks in Stock: " + stock;
+            stockDisplay.text = stock.ToString();
         }
         else  
         {
             stockText1.text = "Casks in Stock: " + GameManager.instance.ConvertNum(stock);
             stockText2.text = "Casks in Stock: " + GameManager.instance.ConvertNum(stock);
+            stockDisplay.text = GameManager.instance.ConvertNum(stock).ToString();
         }  
 
 
@@ -100,12 +99,9 @@ public class CaskManager : MonoBehaviour
             else
             {
                 // Allow the cask to be collected
-                // Add output to stock
-                stock += caskPanel[i].output;
-                // Reset progress
-                caskPanel[i].progress = 0;
-                // Reset Timer
-                caskPanel[i].startTime = sysDateTime;
+                // Enable button
+                caskCollectBtns[i].interactable = true;
+
                 continue;
             }
 
@@ -116,6 +112,18 @@ public class CaskManager : MonoBehaviour
 
     }
 
+    // Not Assigned to buttons yet
+    public void CollectCask(int btn)
+    {
+        // Add output to stock
+        stock += caskPanel[btn].output;
+        // Reset progress
+        caskPanel[btn].progress = 0;
+        // Reset Timer
+        caskPanel[btn].startTime = sysDateTime;
+        // Disable button
+        caskPanel[btn].caskButton.interactable = false;
+    }
 
     public void SellCasks(int amount)
     {
@@ -158,7 +166,7 @@ public class CaskManager : MonoBehaviour
             caskPanel[i].output = caskSO[i].output;
             caskPanel[i].startTime = sysDateTime;
             caskPanel[i].progress = 0;
-            //caskPanel[i].caskButton = caskSO[i].button;
+            caskPanel[i].caskButton = caskSO[i].button;
         }
     }
     
