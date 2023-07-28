@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 6
   m_EditorClassIdentifier: 
   title: Corks
-  cost: 14929920
+  cost: 149299200
   rate: 21600
   costMod: 1.1
   rateMod: 1
