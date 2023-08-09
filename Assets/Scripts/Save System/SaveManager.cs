@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class SaveManager: MonoBehaviour
@@ -39,9 +40,6 @@ public class SaveManager: MonoBehaviour
 
         return data;
     }
-
-    // Reset all saved data. For testing purposes.
-
     
     private void SetPaths()
     {
@@ -85,6 +83,7 @@ public class SaveManager: MonoBehaviour
         // Check if data exists
         if (System.IO.File.Exists(path))
         {
+            Debug.Log("Save file found");
             // Load existing data
             using StreamReader reader = new StreamReader(path);
             string json = reader.ReadToEnd();
@@ -106,5 +105,31 @@ public class SaveManager: MonoBehaviour
 
         return data;
     }
+
+    public void ResetData()
+    {
+        // Create a blank data file
+        NewSaveGame();
+        // Reload app
+        SceneManager.LoadScene(0);
+
+    }
+
+    private void OnApplicationQuit()
+    {
+        // Save data on app quit
+        SaveGame();
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        // Save data when focus is false
+        if(focus == false)
+            SaveGame();
+    }
+
+
+
+
 }
 

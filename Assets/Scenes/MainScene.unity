@@ -1781,7 +1781,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1588425121}
         m_TargetAssemblyTypeName: SaveManager, Assembly-CSharp
-        m_MethodName: ClearData
+        m_MethodName: NewSaveGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3036,6 +3036,7 @@ MonoBehaviour:
   SM: {fileID: 1588425119}
   clickVFX: {fileID: 2143708752}
   clickAudioFX: {fileID: 8300000, guid: ed346891be7f8544ebdb11f405055e01, type: 3}
+  afkModifier: 0
 --- !u!114 &696676354
 MonoBehaviour:
   m_ObjectHideFlags: 0

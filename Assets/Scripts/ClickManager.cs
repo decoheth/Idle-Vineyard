@@ -46,7 +46,7 @@ public class ClickManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
 
         // AFK gold
-        AfkGold(data.savedExitTime);
+        //AfkGold(data.savedExitTime);
 
 
         // Auto clicker - Call click function every 1 second
@@ -109,7 +109,7 @@ public class ClickManager : MonoBehaviour
         currentTime = System.DateTime.Now;
         savedExitTime = savedTime;
         afkTime = (savedExitTime - currentTime).TotalMinutes;
-        Debug.Log(afkTime);
+        Debug.Log("AFK minutes: " + afkTime);
         // multiply time afk by modifier
     }
 
