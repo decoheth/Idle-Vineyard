@@ -14,16 +14,18 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI goldText;
 
+    public static GameManager instance;
+
     [Header("Managers")]
     // Upgrade Manager
     public GameObject UM;
     // Save Manager
     public GameObject SM;
 
-    public static GameManager instance;
+    
 
-    [Header("Settings: Audio")]
     //Audio Settings
+    [Header("Settings: Audio")]
     [Range(0.0f, 1.0f)]
     public float masterVolume;
     [Range(0.0f, 1.0f)]
@@ -36,12 +38,17 @@ public class GameManager : MonoBehaviour
 
     void Start() 
     {
-        // Set initial gold (from saved value)
+        // Load saved data
         SaveData data = SM.GetComponent<SaveManager>().LoadGame();
+        // Set initial gold (from saved value)
         gold = data.savedGold;
 
+        // Set audio levels
         fxVolume = setFXVolume * masterVolume;
         musicVolume = setMusicVolume * masterVolume;
+
+
+
     }
 
     void Awake() 
@@ -74,19 +81,20 @@ public class GameManager : MonoBehaviour
 
 
         if (amount >= 1000000000000000000)
-            value = (amount / 1000000000000000000).ToString("F2") + "Qi";  // Quintillion    
+            value = (amount / 1000000000000000000).ToString("F1") + "Qi";  // Quintillion    
         else if (amount >= 1000000000000000)
-            value = (amount / 1000000000000000).ToString("F2") + "Qa";  // Quadrillion
+            value = (amount / 1000000000000000).ToString("F1") + "Qa";  // Quadrillion
         else if (amount >= 1000000000000)
-            value = (amount / 1000000000000).ToString("F2") + "T";  // Trillion
+            value = (amount / 1000000000000).ToString("F1") + "T";  // Trillion
         else if (amount >= 1000000000)
-            value = (amount / 1000000000).ToString("F2") + "B";  // Billion
+            value = (amount / 1000000000).ToString("F1") + "B";  // Billion
         else if (amount >= 1000000)
             value = (amount / 1000000).ToString("F2") + "M";  // Million
         else if (amount >= 1000)
             value = (amount / 1000).ToString("F2") + "K"; // Thousand
         else
             value = amount.ToString("F2");
+
 
         return value;
     }

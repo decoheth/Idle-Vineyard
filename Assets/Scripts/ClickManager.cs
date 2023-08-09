@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -9,6 +10,8 @@ public class ClickManager : MonoBehaviour
     public double autoRate;
     public TextMeshProUGUI goldRateText;
     public double goldPerClick;
+
+
 
     [Header("Managers")]
     // Save Manager
@@ -21,18 +24,30 @@ public class ClickManager : MonoBehaviour
     public AudioClip clickAudioFX;
     AudioSource audioSource;
 
+    [Header("AFK Idle")]
+    public double afkModifier;
+    public DateTime currentTime;
+    public DateTime savedExitTime;
+    private TimeSpan afkTime;
+
+
     public static ClickManager instance;
     
     void Start()
     {
-        // Load saved rate
+        // Load saved data
         SaveData data = SM.GetComponent<SaveManager>().LoadGame();
+        // Load saved rate
         autoRate = data.savedRate;
 
         // Position used for the touch effects
         position = new Vector3(0, 0, 0); 
-
+        // Load audio source
         audioSource = GetComponent<AudioSource>();
+
+        // AFK gold
+        AfkGold(data.savedExitTime);
+
 
         // Auto clicker - Call click function every 1 second
         InvokeRepeating("AutoClick", 1.0f, 1.0f);
@@ -45,7 +60,6 @@ public class ClickManager : MonoBehaviour
             goldRateText.text = "";
         else
             goldRateText.text = GameManager.instance.ConvertNum(autoRate) + " /sec";
-
 
     }
 
@@ -89,6 +103,15 @@ public class ClickManager : MonoBehaviour
         goldPerClick += bonus;
     }
     
+    void AfkGold (DateTime savedTime)
+    {
+        // afkModifier = data.savedAfkModifier
+        currentTime = System.DateTime.Now;
+        savedExitTime = savedTime;
+        afkTime = (savedExitTime - currentTime).TotalMinutes;
+        Debug.Log(afkTime);
+        // multiply time afk by modifier
+    }
 
 }
 

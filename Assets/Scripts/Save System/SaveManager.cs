@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System;
 using System.IO;
+using UnityEngine;
 
 
 public class SaveManager: MonoBehaviour
@@ -31,8 +32,10 @@ public class SaveManager: MonoBehaviour
         //Debug.Log(UM.GetComponent<UpgradeManager>().generatorPanels);
 
         double stock = CM.GetComponent<CaskManager>().stock;
+        
+        DateTime exitTime = System.DateTime.Now;
 
-        SaveData data = new SaveData(gold,rate,goldPerClick,genLevel, stock);
+        SaveData data = new SaveData(gold,rate,goldPerClick,genLevel, stock, exitTime);
 
         return data;
     }
