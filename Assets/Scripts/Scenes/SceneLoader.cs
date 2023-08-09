@@ -11,7 +11,7 @@ public class SceneLoader : MonoBehaviour
     void Start()
     {
         // Load MainScene on game start
-        LoadScene(1);
+        LoadScene(2);
     }
 
 
