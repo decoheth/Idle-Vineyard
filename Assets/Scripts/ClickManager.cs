@@ -28,7 +28,7 @@ public class ClickManager : MonoBehaviour
     public double afkModifier;
     public DateTime currentTime;
     public DateTime savedExitTime;
-    private TimeSpan afkTime;
+    private double afkTime;
 
 
     public static ClickManager instance;

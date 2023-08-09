@@ -61,13 +61,49 @@ public class SaveManager: MonoBehaviour
         writer.Write(json);
     }
 
+    public void NewSaveGame ()
+    {
+        // Create blank save data file
+
+        int[] genLevel = new int[7] {0,0,0,0,0,0,0};
+        
+        DateTime exitTime = System.DateTime.Now;
+
+        SaveData saveData = new SaveData(0d,0d,0d,genLevel, 0d, exitTime);
+
+        Debug.Log("Saving data at " + path);
+        string json = JsonUtility.ToJson(saveData);
+        Debug.Log(json);
+
+        using StreamWriter writer = new StreamWriter(path);
+        writer.Write(json);
+    }
+
     public SaveData LoadGame ()
     {
-        using StreamReader reader = new StreamReader(path);
-        string json = reader.ReadToEnd();
+        SaveData data;
+        // Check if data exists
+        if (System.IO.File.Exists(path))
+        {
+            // Load existing data
+            using StreamReader reader = new StreamReader(path);
+            string json = reader.ReadToEnd();
 
-        SaveData data = JsonUtility.FromJson<SaveData>(json);
-        
+            data = JsonUtility.FromJson<SaveData>(json);
+        }
+        else
+        {
+            Debug.Log("No save data file found");
+            // Create new data
+            NewSaveGame();
+            Debug.Log("New save data file created");
+            // Load new data
+            using StreamReader reader = new StreamReader(path);
+            string json = reader.ReadToEnd();
+
+            data = JsonUtility.FromJson<SaveData>(json);
+        }
+
         return data;
     }
 }
