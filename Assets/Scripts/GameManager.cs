@@ -131,6 +131,7 @@ public class GameManager : MonoBehaviour
             // Play bottle pouring and corking animation
             Debug.Log("Bottle Corked!");
             // Add gold
+            // Play gold coins animation
             AddGold(valueBottle);
 
             // Reset loop

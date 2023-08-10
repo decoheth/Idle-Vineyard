@@ -21,11 +21,17 @@ public class UIManager : MonoBehaviour
     public GameObject CaskTab2;
     public GameObject CaskTab3;
 
-
-
-    [Header("Buttons")]
+    [Header("Settings")]
 
     public GameObject SettingsButton;
+    public GameObject SettingsMenu;
+    public GameObject SettingsTab1;
+    public GameObject SettingsTab2;
+    public GameObject SettingsTab3;
+
+
+
+    [Header("Vintage")]
     public GameObject VintageButton;
 
     public static UIManager instance;
@@ -36,13 +42,16 @@ public class UIManager : MonoBehaviour
 
         // Enable buttons on startup
         UpgradeButton.SetActive(true);
-        CaskButton.SetActive(true);
         SettingsButton.SetActive(true);
+        // If casks have been unlocked
+        CaskButton.SetActive(true);
+        // If Vintages have been unlocked
         VintageButton.SetActive(true);
 
         // Disable menus on startup
         UpgradeMenu.SetActive(false);
         CaskMenu.SetActive(false);
+        SettingsMenu.SetActive(false);
 
         // Set initial selected
         SetUpgradeTab1();
@@ -50,7 +59,11 @@ public class UIManager : MonoBehaviour
 
     }
 
-
+    public void ToggleOtherUI()
+    {
+        SettingsButton.SetActive(!SettingsButton.activeSelf);
+        VintageButton.SetActive(!VintageButton.activeSelf);
+    }
 
     public void ToggleUpgradeMenu()
     {
@@ -108,10 +121,31 @@ public class UIManager : MonoBehaviour
         CaskTab3.SetActive(true);
     }
 
-    public void ToggleOtherUI()
+   public void ToggleSettingsMenu()
     {
-        SettingsButton.SetActive(!SettingsButton.activeSelf);
-        VintageButton.SetActive(!VintageButton.activeSelf);
+        SettingsMenu.SetActive(!SettingsMenu.activeSelf);
+        ToggleOtherUI();
+    }
+
+    public void SetSettingsTab1()
+    {
+        SettingsTab1.SetActive(true);
+        SettingsTab2.SetActive(false);
+        SettingsTab3.SetActive(false);
+    }
+
+    public void SetSettingsTab2()
+    {
+        SettingsTab1.SetActive(false);
+        SettingsTab2.SetActive(true);
+        SettingsTab3.SetActive(false);
+    }
+
+    public void SetSettingsTab3()
+    {
+        SettingsTab1.SetActive(false);
+        SettingsTab2.SetActive(false);
+        SettingsTab3.SetActive(true);
     }
 
 }
