@@ -21,13 +21,7 @@ public class UIManager : MonoBehaviour
     public GameObject CaskTab2;
     public GameObject CaskTab3;
 
-    [Header("Focus")]
-    public GameObject CropsFocusButton;
-    public GameObject BuildingFocusButton;
-    public GameObject ShopFocusButton;
-    public GameObject CropsFocus;
-    public GameObject BuildingFocus;
-    public GameObject ShopFocus;
+
 
     [Header("Buttons")]
 
@@ -45,9 +39,6 @@ public class UIManager : MonoBehaviour
         CaskButton.SetActive(true);
         SettingsButton.SetActive(true);
         VintageButton.SetActive(true);
-        CropsFocusButton.SetActive(true);
-        BuildingFocusButton.SetActive(true);
-        ShopFocusButton.SetActive(true);
 
         // Disable menus on startup
         UpgradeMenu.SetActive(false);
@@ -56,7 +47,6 @@ public class UIManager : MonoBehaviour
         // Set initial selected
         SetUpgradeTab1();
         SetCaskTab1();
-        SetFocus2();
 
     }
 
@@ -124,26 +114,4 @@ public class UIManager : MonoBehaviour
         VintageButton.SetActive(!VintageButton.activeSelf);
     }
 
-
-
-    public void SetFocus1()
-    {
-        CropsFocus.SetActive(true);
-        BuildingFocus.SetActive(false);
-        ShopFocus.SetActive(false);
-    }
-
-    public void SetFocus2()
-    {
-        CropsFocus.SetActive(false);
-        BuildingFocus.SetActive(true);
-        ShopFocus.SetActive(false);
-    }
-
-    public void SetFocus3()
-    {
-        CropsFocus.SetActive(false);
-        BuildingFocus.SetActive(false);
-        ShopFocus.SetActive(true);
-    }
 }

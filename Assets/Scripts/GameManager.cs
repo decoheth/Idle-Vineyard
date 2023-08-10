@@ -7,12 +7,31 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    [Header("Game")]
-    
+    [Header("Gameplay")]
+
+    // Grapes
+    public int currentGrapes;
+    public int thresholdGrapes;
+    public int increaseGrapes;
+    // Barrel
+    public float timeBarrel;
+    private float timeLeftBarrel;
+    private bool isTimingBarrel = false;
+    // Bottle
+    private bool collectBottle = false;
+    public double valueBottle;
+
+    // Other    
     public double gold;
-    public string version;
+
+    [Header("Objects")]
+
+    public GameObject grapesSprite;
+    public GameObject barrelSprite;
+    public GameObject bottleSprite;
 
     public TextMeshProUGUI goldText;
+    public Button clickField;
 
     public static GameManager instance;
 
@@ -22,7 +41,12 @@ public class GameManager : MonoBehaviour
     // Save Manager
     public GameObject SM;
 
-    
+    [Header("Click Effects")]
+    private Vector3 position;
+    public ParticleSystem grapeClickVFX;
+    public AudioClip grapeClickAudioFX;
+
+    AudioSource audioSource;
 
     //Audio Settings
     [Header("Settings: Audio")]
@@ -47,14 +71,79 @@ public class GameManager : MonoBehaviour
         fxVolume = setFXVolume * masterVolume;
         musicVolume = setMusicVolume * masterVolume;
 
+        // Set barrel timer
+        timeLeftBarrel = timeBarrel;
 
 
+        // Position used for the touch effects
+        position = new Vector3(0, 0, 0); 
+        // Load audio source
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Awake() 
     {
         instance = this;
     }
+
+    void Update()
+    {
+        // Barrel aging
+        if (isTimingBarrel == true)
+        {
+            if (timeLeftBarrel > 0)
+            {
+                // Play animation of barrel fermenting
+                timeLeftBarrel -= Time.deltaTime;
+            }
+            else
+            {
+                Debug.Log("Barrel timer complete");
+                collectBottle = true;
+            }
+        }
+    }
+
+    public void Core ()
+    {
+        // add +1 to grapes until it reaches limit
+        if (currentGrapes < thresholdGrapes)
+        {
+            // Click particle
+            position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            grapeClickVFX.transform.position = new Vector3(position.x,position.y, -5f);
+            grapeClickVFX.Emit(1);
+            //Play audio effect on click
+            audioSource.PlayOneShot(grapeClickAudioFX, fxVolume);
+
+            currentGrapes += increaseGrapes;
+            return;
+        }
+        else
+        {
+            Debug.Log("Grapes Full");
+            isTimingBarrel = true;
+        }
+        
+        // Tap again to pour bottle of wine and collect
+        if (collectBottle == true)
+        {
+            // Play bottle pouring and corking animation
+            Debug.Log("Bottle Corked!");
+            // Add gold
+            AddGold(valueBottle);
+
+            // Reset loop
+            currentGrapes = 0;
+            isTimingBarrel = false;
+            timeLeftBarrel = timeBarrel;
+            collectBottle = false;
+        }
+        
+    }
+
+
+
 
     public void AddGold(double amount) 
     {

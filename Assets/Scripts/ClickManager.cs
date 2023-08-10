@@ -16,7 +16,6 @@ public class ClickManager : MonoBehaviour
     [Header("Managers")]
     // Save Manager
     public GameObject SM;
-    
 
     [Header("Click Effects")]
     private Vector3 position;
@@ -40,10 +39,7 @@ public class ClickManager : MonoBehaviour
         // Load saved rate
         autoRate = data.savedRate;
 
-        // Position used for the touch effects
-        position = new Vector3(0, 0, 0); 
-        // Load audio source
-        audioSource = GetComponent<AudioSource>();
+
 
         // AFK gold
         //AfkGold(data.savedExitTime);
@@ -63,23 +59,23 @@ public class ClickManager : MonoBehaviour
 
     }
 
+
+
+
+
+
+
     void AutoClick()
     {
         GameManager.instance.AddGold(autoRate);
     }
 
-     public void Click()
+    // Not used currently
+    public void Click()
     {
         GameManager.instance.AddGold(goldPerClick);
 
-        // Get position of click
-        position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        // Emit particles at position
-        clickVFX.transform.position = new Vector3(position.x,position.y, -5f);
-        clickVFX.Emit(1);
-        
-        //Play audio effect on click
-        audioSource.PlayOneShot(clickAudioFX, GameManager.instance.fxVolume);
+
 
     }
 
