@@ -46,10 +46,9 @@ public class GameManager : MonoBehaviour
     public ParticleSystem grapeClickVFX;
     public AudioClip grapeClickAudioFX;
 
-    AudioSource audioSource;
 
-    //Audio Settings
     [Header("Settings: Audio")]
+    AudioSource audioSource;
     [Range(0.0f, 1.0f)]
     public float masterVolume;
     [Range(0.0f, 1.0f)]
@@ -58,6 +57,14 @@ public class GameManager : MonoBehaviour
     public float setMusicVolume;
     public float fxVolume;
     public float musicVolume;
+
+    [Header("Stats")]
+    public double totalGold;
+    public double totalVintageGold;
+    public double highestGold;
+    public double playtime;
+    public int vintageCount;
+
 
 
     void Start() 

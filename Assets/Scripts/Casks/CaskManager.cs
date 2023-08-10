@@ -82,7 +82,7 @@ public class CaskManager : MonoBehaviour
             sellCask.transform.SetParent(parentCanvasObjSellCask.transform, false);
         
             // Disable all buttons
-            sellCask.GetComponentInChildren<Button>().interactable = true;
+            sellCask.GetComponentInChildren<Button>().interactable = false;
             int tmp = i;
             sellCask.GetComponentInChildren<Button>().onClick.AddListener(() => SellCasks(tmp));
             // Add to Button list
@@ -100,6 +100,7 @@ public class CaskManager : MonoBehaviour
 
         // Load sell cask panels with dynamic text;
         SellPanels();
+        CheckSellAvailability();
 
     }
 
@@ -148,24 +149,24 @@ public class CaskManager : MonoBehaviour
         }
     }
 
-
-    // Not Assigned to buttons yet
-    public void CollectCask(int btn)
+    public void CollectCask(int index)
     {
         // Add output to stock
-        stock += caskPanel[btn].output;
+        stock += caskPanel[index].output;
         // Reset progress
-        caskPanel[btn].progress = 0;
+        caskPanel[index].progress = 0;
         // Reset Timer
-        caskPanel[btn].startTime = sysDateTime;
+        caskPanel[index].startTime = sysDateTime;
         // Disable button
-        caskCollectBtns[btn].interactable = false;
+        caskCollectBtns[index].interactable = false;
+        CheckSellAvailability();
     }
 
     public void SellCasks(int index)
     {
         // Decrease stok amount by amount sold
         stock -= sellCaskPanel[index].amount;
+        CheckSellAvailability();
         // Add gold
         switch(sellCaskPanel[index].amount)
         {
