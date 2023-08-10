@@ -15,11 +15,10 @@ public class SaveData
     public double savedStock;
     public int[] savedGenLevel;
 
-    // DateTime not serializable
-    public DateTime savedExitTime;
+    public string savedExitTime;
 
 
-    public SaveData (double gold, double rate, double gpc, int[] genLevel, double stock, DateTime exitTime) 
+    public SaveData (double gold, double rate, double gpc, int[] genLevel, double stock, string exitTime) 
     {
         savedGold = gold;
         savedRate = rate;

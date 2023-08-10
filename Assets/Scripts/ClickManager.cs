@@ -25,8 +25,7 @@ public class ClickManager : MonoBehaviour
 
     [Header("AFK Idle")]
     public double afkModifier;
-    public DateTime currentTime;
-    public DateTime savedExitTime;
+    private DateTime currentTime;
     private double afkTime;
 
 
@@ -42,7 +41,8 @@ public class ClickManager : MonoBehaviour
 
 
         // AFK gold
-        //AfkGold(data.savedExitTime);
+        DateTime savedExitTime = JsonUtility.FromJson<JsonDateTime>(data.savedExitTime);
+        AfkGold(savedExitTime);
 
 
         // Auto clicker - Call click function every 1 second
@@ -103,11 +103,23 @@ public class ClickManager : MonoBehaviour
     {
         // afkModifier = data.savedAfkModifier
         currentTime = System.DateTime.Now;
-        savedExitTime = savedTime;
-        afkTime = (savedExitTime - currentTime).TotalMinutes;
+        afkTime = (currentTime - savedTime).TotalMinutes;
         Debug.Log("AFK minutes: " + afkTime);
         // multiply time afk by modifier
     }
 
+    // Serialize DateTime
+    [Serializable]
+    struct JsonDateTime {
+        public long value;
+        public static implicit operator DateTime(JsonDateTime jdt) {
+            return DateTime.FromFileTimeUtc(jdt.value);
+        }
+        public static implicit operator JsonDateTime(DateTime dt) {
+            JsonDateTime jdt = new JsonDateTime();
+            jdt.value = dt.ToFileTimeUtc();
+            return jdt;
+        }
+    }
 }
 

@@ -105,7 +105,6 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Barrel timer complete");
                 collectBottle = true;
             }
         }

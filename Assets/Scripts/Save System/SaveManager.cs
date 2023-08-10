@@ -34,7 +34,7 @@ public class SaveManager: MonoBehaviour
 
         double stock = CM.GetComponent<CaskManager>().stock;
         
-        DateTime exitTime = System.DateTime.Now;
+        var exitTime = JsonUtility.ToJson((JsonDateTime) System.DateTime.Now);
 
         SaveData data = new SaveData(gold,rate,goldPerClick,genLevel, stock, exitTime);
 
@@ -53,7 +53,7 @@ public class SaveManager: MonoBehaviour
 
         //Debug.Log("Saving data at " + path);
         string json = JsonUtility.ToJson(saveData);
-        //Debug.Log(json);
+        Debug.Log(json);
 
         using StreamWriter writer = new StreamWriter(path);
         writer.Write(json);
@@ -65,13 +65,13 @@ public class SaveManager: MonoBehaviour
 
         int[] genLevel = new int[7] {0,0,0,0,0,0,0};
         
-        DateTime exitTime = System.DateTime.Now;
+        var exitTime = JsonUtility.ToJson((JsonDateTime) System.DateTime.Now);
 
         SaveData saveData = new SaveData(0d,0d,0d,genLevel, 0d, exitTime);
 
         //Debug.Log("Saving data at " + path);
         string json = JsonUtility.ToJson(saveData);
-        Debug.Log(json);
+        //Debug.Log(json);
 
         using StreamWriter writer = new StreamWriter(path);
         writer.Write(json);
@@ -128,7 +128,19 @@ public class SaveManager: MonoBehaviour
             SaveGame();
     }
 
-
+    // Serialize DateTime
+    [Serializable]
+    struct JsonDateTime {
+        public long value;
+        public static implicit operator DateTime(JsonDateTime jdt) {
+            return DateTime.FromFileTimeUtc(jdt.value);
+        }
+        public static implicit operator JsonDateTime(DateTime dt) {
+            JsonDateTime jdt = new JsonDateTime();
+            jdt.value = dt.ToFileTimeUtc();
+            return jdt;
+        }
+    }
 
 
 }
