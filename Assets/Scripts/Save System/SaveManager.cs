@@ -51,9 +51,9 @@ public class SaveManager: MonoBehaviour
     {
         SaveData saveData = GetData();
 
-        Debug.Log("Saving data at " + path);
+        //Debug.Log("Saving data at " + path);
         string json = JsonUtility.ToJson(saveData);
-        Debug.Log(json);
+        //Debug.Log(json);
 
         using StreamWriter writer = new StreamWriter(path);
         writer.Write(json);
@@ -69,7 +69,7 @@ public class SaveManager: MonoBehaviour
 
         SaveData saveData = new SaveData(0d,0d,0d,genLevel, 0d, exitTime);
 
-        Debug.Log("Saving data at " + path);
+        //Debug.Log("Saving data at " + path);
         string json = JsonUtility.ToJson(saveData);
         Debug.Log(json);
 
@@ -83,7 +83,7 @@ public class SaveManager: MonoBehaviour
         // Check if data exists
         if (System.IO.File.Exists(path))
         {
-            Debug.Log("Save file found");
+            //Debug.Log("Save file found");
             // Load existing data
             using StreamReader reader = new StreamReader(path);
             string json = reader.ReadToEnd();

@@ -42,7 +42,6 @@ public class GameManager : MonoBehaviour
         SaveData data = SM.GetComponent<SaveManager>().LoadGame();
         // Set initial gold (from saved value)
         gold = data.savedGold;
-        Debug.Log("Saved Gold:"+ gold);
 
         // Set audio levels
         fxVolume = setFXVolume * masterVolume;

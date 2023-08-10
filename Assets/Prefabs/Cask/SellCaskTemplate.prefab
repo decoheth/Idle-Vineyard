@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2374076286829979029}
   - component: {fileID: 8708022103545211053}
   - component: {fileID: 5754099741753861789}
+  - component: {fileID: 710187963840619741}
   m_Layer: 5
   m_Name: SellCaskTemplate
   m_TagString: Untagged
@@ -78,6 +79,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &710187963840619741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38488084181978158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3704f5a03a1a67041830cb948da5560a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonText: {fileID: 1658632295285538464}
+  valueText: {fileID: 7896367155618937620}
+  multiplier: 0
+  amount: 0
+  index: 0
+  sellCaskButton: {fileID: 2865474264683474693}
 --- !u!1 &437073940340815697
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,7 +109,7 @@ GameObject:
   - component: {fileID: 7384069007760960255}
   - component: {fileID: 7896367155618937620}
   m_Layer: 5
-  m_Name: Sell Value
+  m_Name: sellValueText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -225,7 +244,7 @@ GameObject:
   - component: {fileID: 7593364421726129730}
   - component: {fileID: 1658632295285538464}
   m_Layer: 5
-  m_Name: ButtonText
+  m_Name: buttonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -361,7 +380,7 @@ GameObject:
   - component: {fileID: 7332992544525919518}
   - component: {fileID: 2865474264683474693}
   m_Layer: 5
-  m_Name: Sell Button
+  m_Name: sellButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

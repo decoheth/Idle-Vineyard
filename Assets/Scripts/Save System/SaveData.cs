@@ -15,6 +15,7 @@ public class SaveData
     public double savedStock;
     public int[] savedGenLevel;
 
+    // DateTime not serializable
     public DateTime savedExitTime;
 
 

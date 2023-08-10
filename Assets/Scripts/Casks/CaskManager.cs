@@ -30,7 +30,14 @@ public class CaskManager : MonoBehaviour
     public double stock;
     public double caskValue;
     public TMP_Text stockText2;
-    public List<TMP_Text> sellText = new List<TMP_Text>();
+    public SellCaskSO[] sellCaskSO;
+
+    [SerializeField] GameObject sellCaskPrefab;
+    [SerializeField] GameObject parentCanvasObjSellCask;
+    private List<Button> caskSellBtns = new List<Button>();
+    [HideInInspector]
+    public List<SellCaskTemplate> sellCaskPanel = new List<SellCaskTemplate>();
+    private List<GameObject> sellCaskGO = new List<GameObject>();
 
 
     
@@ -44,6 +51,7 @@ public class CaskManager : MonoBehaviour
         SaveData data = SM.GetComponent<SaveManager>().LoadGame();
         stock = data.savedStock;
 
+        // Create and assign casks
         for (int i = 0; i < caskSO.Length; i++)
         {
             // Instantiate from prefab
@@ -51,8 +59,6 @@ public class CaskManager : MonoBehaviour
             // Set menu panel as parent
             cask.transform.SetParent(parentCanvasObjCask.transform, false);
         
-
-
             // Disable all buttons
             cask.GetComponent<Button>().interactable = false;
             int tmp = i;
@@ -63,9 +69,30 @@ public class CaskManager : MonoBehaviour
             caskGO.Add(cask as GameObject);
             // Add to Template list
             caskPanel.Add(cask.GetComponent<CaskTemplate>() as CaskTemplate);
-
             //Enable all panels
             cask.SetActive(true);
+        }
+
+        // Create and assign sell cask panels
+        for (int i = 0; i < sellCaskSO.Length; i++)
+        {
+            // Instantiate from prefab
+            var sellCask = Instantiate (sellCaskPrefab, transform.position , Quaternion.identity);
+            // Set menu panel as parent
+            sellCask.transform.SetParent(parentCanvasObjSellCask.transform, false);
+        
+            // Disable all buttons
+            sellCask.GetComponentInChildren<Button>().interactable = true;
+            int tmp = i;
+            sellCask.GetComponentInChildren<Button>().onClick.AddListener(() => SellCasks(tmp));
+            // Add to Button list
+            caskSellBtns.Add(sellCask.GetComponentInChildren<Button>() as Button);
+            // Add to GameObject list
+            sellCaskGO.Add(sellCask as GameObject);
+            // Add to Template list
+            sellCaskPanel.Add(sellCask.GetComponent<SellCaskTemplate>() as SellCaskTemplate);
+            //Enable all panels
+            sellCask.SetActive(true);
         }
 
         // Load panels with Scriptable Object data
@@ -96,7 +123,6 @@ public class CaskManager : MonoBehaviour
         }  
 
 
-
         // Cask Timers
         for (int i = 0; i < caskSO.Length; i++)
         {
@@ -119,11 +145,9 @@ public class CaskManager : MonoBehaviour
                 continue;
             }
 
-
         }
-
-
     }
+
 
     // Not Assigned to buttons yet
     public void CollectCask(int btn)
@@ -138,12 +162,12 @@ public class CaskManager : MonoBehaviour
         caskCollectBtns[btn].interactable = false;
     }
 
-    public void SellCasks(int amount)
+    public void SellCasks(int index)
     {
         // Decrease stok amount by amount sold
-        stock -= amount;
+        stock -= sellCaskPanel[index].amount;
         // Add gold
-        switch(amount)
+        switch(sellCaskPanel[index].amount)
         {
             case 1:
                 GameManager.instance.AddGold(caskValue);
@@ -185,10 +209,35 @@ public class CaskManager : MonoBehaviour
     
     public void SellPanels()
     {
-        sellText[0].text = GameManager.instance.ConvertNum(caskValue) + " per Cask";
-        sellText[1].text = GameManager.instance.ConvertNum(caskValue * 1.5) + " per Cask";
-        sellText[2].text = GameManager.instance.ConvertNum(caskValue * 2) + " per Cask";
-        sellText[3].text = GameManager.instance.ConvertNum(caskValue * 5) + " per Cask";
-        sellText[4].text = GameManager.instance.ConvertNum(caskValue * 10) + " per Cask";
+        //sellText[0].text = GameManager.instance.ConvertNum(caskValue) + " per Cask";
+        //sellText[1].text = GameManager.instance.ConvertNum(caskValue * 1.5) + " per Cask";
+        //sellText[2].text = GameManager.instance.ConvertNum(caskValue * 2) + " per Cask";
+        //sellText[3].text = GameManager.instance.ConvertNum(caskValue * 5) + " per Cask";
+        //sellText[4].text = GameManager.instance.ConvertNum(caskValue * 10) + " per Cask";
+
+        for (int i = 0; i < sellCaskSO.Length; i++)
+        {
+            sellCaskPanel[i].multiplier = sellCaskSO[i].multiplier;
+            sellCaskPanel[i].amount = sellCaskSO[i].amount;
+            sellCaskPanel[i].index = i;
+            sellCaskPanel[i].sellCaskButton = sellCaskSO[i].button;
+            sellCaskPanel[i].buttonText.text = "Sell x" + sellCaskPanel[i].amount;
+            sellCaskPanel[i].valueText.text = GameManager.instance.ConvertNum(caskValue * sellCaskPanel[i].multiplier) + " per Cask";
+        }
     }
+
+    public void CheckSellAvailability ()
+    {
+        // For each sell panel
+        for (int i = 0; i < sellCaskSO.Length; i++)
+        {
+            // Check if user has enough cask stock
+            if (stock >= sellCaskPanel[i].amount)  
+                // Allow upgrade to be purchased
+                caskSellBtns[i].interactable = true;
+            else
+                caskSellBtns[i].interactable = false;
+        }
+    }
+
 }
