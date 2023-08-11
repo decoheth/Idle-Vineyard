@@ -9,20 +9,22 @@ public class GameManager : MonoBehaviour
 {
     [Header("Gameplay")]
 
+    // Other    
+    public double gold;
+    public double autoRate;
+    public double valueBottle;
+
     // Grapes
     public int currentGrapes;
     public int thresholdGrapes;
-    public int increaseGrapes;
+    private int increaseGrapes;
     // Barrel
     public float timeBarrel;
     private float timeLeftBarrel;
     private bool isTimingBarrel = false;
     // Bottle
     private bool collectBottle = false;
-    public double valueBottle;
 
-    // Other    
-    public double gold;
 
     [Header("Objects")]
 
@@ -31,7 +33,7 @@ public class GameManager : MonoBehaviour
     public GameObject bottleSprite;
 
     public TextMeshProUGUI goldText;
-    public Button clickField;
+    public TextMeshProUGUI goldRateText;
 
     public static GameManager instance;
 
@@ -40,15 +42,17 @@ public class GameManager : MonoBehaviour
     public GameObject UM;
     // Save Manager
     public GameObject SM;
+    // UI Manager
+    public GameObject UIM;
 
     [Header("Click Effects")]
-    private Vector3 position;
+
     public ParticleSystem grapeClickVFX;
     public AudioClip grapeClickAudioFX;
+    private Vector3 position;
 
 
     [Header("Settings: Audio")]
-    AudioSource audioSource;
     [Range(0.0f, 1.0f)]
     public float masterVolume;
     [Range(0.0f, 1.0f)]
@@ -57,6 +61,7 @@ public class GameManager : MonoBehaviour
     public float setMusicVolume;
     public float fxVolume;
     public float musicVolume;
+    AudioSource audioSource;
 
     [Header("Stats")]
     public double totalGold;
@@ -65,23 +70,43 @@ public class GameManager : MonoBehaviour
     public double playtime;
     public int vintageCount;
 
+    [Header("AFK Idle")]
+    public double afkModifier;
+    private DateTime currentTime;
+    private double afkTime;
+    double afkIncome;
+
 
 
     void Start() 
     {
         // Load saved data
         SaveData data = SM.GetComponent<SaveManager>().LoadGame();
-        // Set initial gold (from saved value)
+        // Set saved values
         gold = data.savedGold;
+        autoRate = data.savedRate;
+        valueBottle = data.savedValueBottle;
+        afkModifier = data.savedAfkModifier;
+
 
         // Set audio levels
         fxVolume = setFXVolume * masterVolume;
         musicVolume = setMusicVolume * masterVolume;
 
+
+
+
+        // AFK gold
+        DateTime savedExitTime = JsonUtility.FromJson<JsonDateTime>(data.savedExitTime);
+        AfkGold(savedExitTime);
+
+
+
+        // Auto clicker - Call click function every 1 second
+        InvokeRepeating("AutoClick", 1.0f, 1.0f);
+
         // Set barrel timer
         timeLeftBarrel = timeBarrel;
-
-
         // Position used for the touch effects
         position = new Vector3(0, 0, 0); 
         // Load audio source
@@ -108,6 +133,12 @@ public class GameManager : MonoBehaviour
                 collectBottle = true;
             }
         }
+
+        // Auto text management
+        if (autoRate == 0)
+            goldRateText.text = "";
+        else
+            goldRateText.text = GameManager.instance.ConvertNum(autoRate) + " /sec";
     }
 
     public void Core ()
@@ -151,6 +182,10 @@ public class GameManager : MonoBehaviour
 
 
 
+    void AutoClick()
+    {
+        AddGold(autoRate);
+    }
 
     public void AddGold(double amount) 
     {
@@ -170,7 +205,21 @@ public class GameManager : MonoBehaviour
         UM.GetComponent<UpgradeManager>().CheckPurchaseable();
     }
 
-    
+    public void IncreaseAutoRateMod(double rate)
+    {
+        autoRate *= rate;
+    }
+
+    public void IncreaseAutoRateBonus(double bonus)
+    {
+        autoRate += bonus;
+    }
+
+    public void IncreaseBottleValue(double bonus)
+    {
+        valueBottle += bonus;
+    }
+
     public string ConvertNum(double amount)
     {
         string value;
@@ -199,6 +248,58 @@ public class GameManager : MonoBehaviour
     {
         fxVolume = setFXVolume * masterVolume;
         musicVolume = setMusicVolume * masterVolume;
+    }
+
+    void AfkGold (DateTime savedTime)
+    {
+        // afkModifier = data.savedAfkModifier
+        currentTime = System.DateTime.Now;
+
+        afkTime = (currentTime - savedTime).TotalMinutes;
+        Debug.Log("AFK minutes: " + afkTime);
+        // If afktime is above afk threshold (3 mins)
+        if(afkTime > 0.3)
+        {
+            // Cap time at 72 hours (4320 mins)
+            if(afkTime >= 4320)
+            {
+                afkTime = 4320;
+            }
+            // multiply time afk by modifier and add that much gold
+            afkIncome = (afkTime * (autoRate * 60));
+            afkIncome *= afkModifier;        
+        }
+        // display on ui popup
+        UIM.GetComponent<UIManager>().AfkPopup(afkIncome, afkTime);
+    }
+
+    public void ClaimAfkGold()
+    {
+        gold += afkIncome;
+        goldText.text = ConvertNum(gold);
+        Debug.Log("Income claimed: " + afkIncome);
+        UIM.GetComponent<UIManager>().ClosePopup();
+    }
+    public void ClaimBoostedAfkGold()
+    {
+        gold += (afkIncome*2);
+        goldText.text = ConvertNum(gold);
+        Debug.Log("Boosted income claimed: " + afkIncome*2);
+        UIM.GetComponent<UIManager>().ClosePopup();
+    }
+
+    // Serialize DateTime
+    [Serializable]
+    struct JsonDateTime {
+        public long value;
+        public static implicit operator DateTime(JsonDateTime jdt) {
+            return DateTime.FromFileTime(jdt.value);
+        }
+        public static implicit operator JsonDateTime(DateTime dt) {
+            JsonDateTime jdt = new JsonDateTime();
+            jdt.value = dt.ToFileTime();
+            return jdt;
+        }
     }
 
 }

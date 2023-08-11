@@ -114,7 +114,7 @@ public class UpgradeManager : MonoBehaviour
             GameManager.instance.RemoveGold(generatorPanels[BtnNo].costVal);
 
             // Grant Bonuses
-            GM.GetComponent<ClickManager>().IncreaseAutoRateBonus(generatorPanels[BtnNo].rateVal);
+            GM.GetComponent<GameManager>().IncreaseAutoRateBonus(generatorPanels[BtnNo].rateVal);
             // Increase count
             generatorSO[BtnNo].count += 1;
             // Add rate to total count

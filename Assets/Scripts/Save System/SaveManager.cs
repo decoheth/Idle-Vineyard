@@ -11,6 +11,10 @@ public class SaveManager: MonoBehaviour
 
     string path = "";
 
+    [Header("Default Values")]
+    public double defaultValueBottle;
+    public double defaultAfkModifier;
+
     [Header("Managers")]
     public GameObject GM;
     public GameObject CM;
@@ -25,18 +29,19 @@ public class SaveManager: MonoBehaviour
     public SaveData GetData ()
     {
         double gold = GM.GetComponent<GameManager>().gold;
-        double rate = GM.GetComponent<ClickManager>().autoRate;
-        double goldPerClick = GM.GetComponent<ClickManager>().goldPerClick;
+        double rate = GM.GetComponent<GameManager>().autoRate;
+        double valueBottle = GM.GetComponent<GameManager>().valueBottle;
+        double stock = CM.GetComponent<CaskManager>().stock;
+        var exitTime = JsonUtility.ToJson((JsonDateTime) System.DateTime.Now);
+        double afkModifier = GM.GetComponent<GameManager>().afkModifier;
         // Get generator levels
         int[] genLevel = new int[7] {4,1,1,1,1,0,0};
         //int[] genLevel = UM.GetComponent<UpgradeManager>().generatorSO.count;
         //Debug.Log(UM.GetComponent<UpgradeManager>().generatorPanels);
 
-        double stock = CM.GetComponent<CaskManager>().stock;
-        
-        var exitTime = JsonUtility.ToJson((JsonDateTime) System.DateTime.Now);
 
-        SaveData data = new SaveData(gold,rate,goldPerClick,genLevel, stock, exitTime);
+
+        SaveData data = new SaveData(gold,rate,genLevel, stock, exitTime, valueBottle, afkModifier);
 
         return data;
     }
@@ -67,11 +72,9 @@ public class SaveManager: MonoBehaviour
         
         var exitTime = JsonUtility.ToJson((JsonDateTime) System.DateTime.Now);
 
-        SaveData saveData = new SaveData(0d,0d,0d,genLevel, 0d, exitTime);
+        SaveData saveData = new SaveData(0d,0d,genLevel, 0d, exitTime,defaultValueBottle, defaultAfkModifier);
 
-        //Debug.Log("Saving data at " + path);
         string json = JsonUtility.ToJson(saveData);
-        //Debug.Log(json);
 
         using StreamWriter writer = new StreamWriter(path);
         writer.Write(json);
@@ -133,11 +136,11 @@ public class SaveManager: MonoBehaviour
     struct JsonDateTime {
         public long value;
         public static implicit operator DateTime(JsonDateTime jdt) {
-            return DateTime.FromFileTimeUtc(jdt.value);
+            return DateTime.FromFileTime(jdt.value);
         }
         public static implicit operator JsonDateTime(DateTime dt) {
             JsonDateTime jdt = new JsonDateTime();
-            jdt.value = dt.ToFileTimeUtc();
+            jdt.value = dt.ToFileTime();
             return jdt;
         }
     }

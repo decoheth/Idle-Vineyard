@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
-    [Header("Upgrades")]
+    [Header("Canvas")]
+    public GameObject uiCanvas;
+    public GameObject popupCanvas;
+    public GameObject darkenPanel;
 
+    [Header("Upgrades")]
     public GameObject UpgradeButton;
     public GameObject UpgradeMenu;
     public GameObject UpgradeTab1;
@@ -29,7 +34,10 @@ public class UIManager : MonoBehaviour
     public GameObject SettingsTab2;
     public GameObject SettingsTab3;
 
-
+    [Header("PopUps")]
+    public GameObject afkPopup;
+    public TMP_Text afkText;
+    public TMP_Text afkTimeText;
 
     [Header("Vintage")]
     public GameObject VintageButton;
@@ -52,6 +60,10 @@ public class UIManager : MonoBehaviour
         UpgradeMenu.SetActive(false);
         CaskMenu.SetActive(false);
         SettingsMenu.SetActive(false);
+
+        darkenPanel.SetActive(false);
+        popupCanvas.SetActive(false);
+        afkPopup.SetActive(false);
 
         // Set initial selected
         SetUpgradeTab1();
@@ -148,4 +160,22 @@ public class UIManager : MonoBehaviour
         SettingsTab3.SetActive(true);
     }
 
+
+    public void AfkPopup(double income, double time)
+    {
+        afkPopup.SetActive(true);
+        darkenPanel.SetActive(true);
+        popupCanvas.SetActive(true);
+        uiCanvas.GetComponent<CanvasGroup>().blocksRaycasts = false;
+        afkText.text = "You have earned " + GameManager.instance.ConvertNum(income) + " gold while you were away!";
+        afkTimeText.text = "Away for " + time.ToString("F0") + " minutes";
+    }
+
+    public void ClosePopup()
+    {
+        afkPopup.SetActive(false);
+        darkenPanel.SetActive(false);
+        popupCanvas.SetActive(false);
+        uiCanvas.GetComponent<CanvasGroup>().blocksRaycasts = true;       
+    }
 }
