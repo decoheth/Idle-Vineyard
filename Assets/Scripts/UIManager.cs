@@ -68,6 +68,7 @@ public class UIManager : MonoBehaviour
         // Set initial selected
         SetUpgradeTab1();
         SetCaskTab1();
+        SetSettingsTab1();
 
     }
 

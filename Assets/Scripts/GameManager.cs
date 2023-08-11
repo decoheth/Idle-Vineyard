@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     // Grapes
     public int currentGrapes;
     public int thresholdGrapes;
-    private int increaseGrapes;
+
     // Barrel
     public float timeBarrel;
     private float timeLeftBarrel;
@@ -153,7 +153,7 @@ public class GameManager : MonoBehaviour
             //Play audio effect on click
             audioSource.PlayOneShot(grapeClickAudioFX, fxVolume);
 
-            currentGrapes += increaseGrapes;
+            currentGrapes += 1;
             return;
         }
         else

@@ -20,55 +20,53 @@ public class AdsManager : MonoBehaviour
         });
     }
 
-    public void LoadRewardedAd()
-    {
-        // Clean up the old ad before loading a new one.
-        if (rewardedAd != null)
-        {
+  public void LoadRewardedAd()
+  {
+      // Clean up the old ad before loading a new one.
+      if (rewardedAd != null)
+      {
             rewardedAd.Destroy();
             rewardedAd = null;
-        }
+      }
 
-        Debug.Log("Loading the rewarded ad.");
+      Debug.Log("Loading the rewarded ad.");
 
-        // create our request used to load the ad.
-        var adRequest = new AdRequest.Builder().Build();
+      // create our request used to load the ad.
+      var adRequest = new AdRequest();
+      adRequest.Keywords.Add("unity-admob-sample");
 
-        // send the request to load the ad.
-        RewardedAd.Load(_adUnitId, adRequest,
-            (RewardedAd ad, LoadAdError error) =>
-            {
+      // send the request to load the ad.
+      RewardedAd.Load(_adUnitId, adRequest,
+          (RewardedAd ad, LoadAdError error) =>
+          {
               // if error is not null, the load request failed.
               if (error != null || ad == null)
-                {
-                    Debug.LogError("Rewarded ad failed to load an ad " +
-                                   "with error : " + error.GetMessage());
-                    return;
-                }
+              {
+                  Debug.LogError("Rewarded ad failed to load an ad " +
+                                 "with error : " + error);
+                  return;
+              }
 
-                Debug.Log("Rewarded ad loaded with response : "
-                          + ad.GetResponseInfo());
+              Debug.Log("Rewarded ad loaded with response : "
+                        + ad.GetResponseInfo());
 
-                rewardedAd = ad;
-                RegisterEventHandlers(rewardedAd);
-            });
-    }
+              rewardedAd = ad;
+          });
+  }
 
 
     public void ShowRewardedAd()
     {
-        const string rewardMsg =
-            "Rewarded ad rewarded the user. Type: {0}, amount: {1}.";
-
         if (rewardedAd != null && rewardedAd.CanShowAd())
         {
             rewardedAd.Show((Reward reward) =>
             {
-                // Grant reward
+                // Reward the user.
                 GM.GetComponent<GameManager>().ClaimBoostedAfkGold();
             });
         }
     }
+
 
 
     private void RegisterEventHandlers(RewardedAd ad)
