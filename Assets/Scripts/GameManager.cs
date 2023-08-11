@@ -254,11 +254,9 @@ public class GameManager : MonoBehaviour
     {
         // afkModifier = data.savedAfkModifier
         currentTime = System.DateTime.Now;
-
         afkTime = (currentTime - savedTime).TotalMinutes;
-        Debug.Log("AFK minutes: " + afkTime);
-        // If afktime is above afk threshold (3 mins)
-        if(afkTime > 0.3)
+        // If afktime is above afk threshold (2 mins)
+        if(afkTime > 2)
         {
             // Cap time at 72 hours (4320 mins)
             if(afkTime >= 4320)
@@ -267,10 +265,11 @@ public class GameManager : MonoBehaviour
             }
             // multiply time afk by modifier and add that much gold
             afkIncome = (afkTime * (autoRate * 60));
-            afkIncome *= afkModifier;        
+            afkIncome *= afkModifier;    
+            // Display on ui popup
+            UIM.GetComponent<UIManager>().AfkPopup(afkIncome, afkTime);    
         }
-        // display on ui popup
-        UIM.GetComponent<UIManager>().AfkPopup(afkIncome, afkTime);
+
     }
 
     public void ClaimAfkGold()
@@ -300,6 +299,15 @@ public class GameManager : MonoBehaviour
             jdt.value = dt.ToFileTime();
             return jdt;
         }
+    }
+    private void OnApplicationFocus(bool focus)
+    {
+        // Reload saved data
+        SaveData data = SM.GetComponent<SaveManager>().LoadGame();
+        DateTime savedExitTime = JsonUtility.FromJson<JsonDateTime>(data.savedExitTime);
+        // When focus is true, call afkgold function
+        if(focus == true)
+            AfkGold(savedExitTime);
     }
 
 }
