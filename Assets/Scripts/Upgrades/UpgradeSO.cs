@@ -12,6 +12,7 @@ public class UpgradeSO : ScriptableObject
     public double cost;
     public Sprite image;
     public int flag;
+    public bool isPurchased;
 
 
 }

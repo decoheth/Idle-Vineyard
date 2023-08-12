@@ -283,7 +283,7 @@ public class GameManager : MonoBehaviour
         // Update gold UI
         goldText.text = ConvertNum(gold);
         Debug.Log("Income claimed: " + afkIncome);
-        UIM.GetComponent<UIManager>().ClosePopup();
+        UIM.GetComponent<UIManager>().CloseAfkPopup();
     }
     public void ClaimBoostedAfkGold()
     {
@@ -292,7 +292,7 @@ public class GameManager : MonoBehaviour
         // Update gold UI
         goldText.text = ConvertNum(gold);
         Debug.Log("Boosted income claimed: " + afkIncome*2);
-        UIM.GetComponent<UIManager>().ClosePopup();
+        UIM.GetComponent<UIManager>().CloseAfkPopup();
     }
 
     // Serialize DateTime

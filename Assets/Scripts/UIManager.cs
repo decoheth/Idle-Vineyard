@@ -172,7 +172,7 @@ public class UIManager : MonoBehaviour
         afkTimeText.text = "Away for " + time.ToString("F0") + " minutes";
     }
 
-    public void ClosePopup()
+    public void CloseAfkPopup()
     {
         afkPopup.SetActive(false);
         darkenPanel.SetActive(false);

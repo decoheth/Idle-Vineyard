@@ -13,6 +13,7 @@ public class UpgradeTemplate : MonoBehaviour
     public Image upgradeImage;
     public int listIndex = 0;
     public int flagVal = 0;
+    public bool isPurchased;
 
 
 }
