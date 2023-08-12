@@ -10,6 +10,7 @@ public class AdsManager : MonoBehaviour
     RewardedAd rewardedAd;
     public string _adUnitId;
     public GameObject GM;
+    public GameObject SM;
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +19,12 @@ public class AdsManager : MonoBehaviour
         {
             LoadRewardedAd();
         });
+        
+        // Load Saved Data
+        SaveData data = SM.GetComponent<SaveManager>().LoadGame();
+        // Create afk popup once ads initialized
+        DateTime savedExitTime = JsonUtility.FromJson<JsonDateTime>(data.savedExitTime);
+        GM.GetComponent<GameManager>().AfkGold(savedExitTime);
     }
 
   public void LoadRewardedAd()
@@ -70,46 +77,54 @@ public class AdsManager : MonoBehaviour
 
 
 private void RegisterEventHandlers(RewardedAd ad)
-{
-    // Raised when the ad is estimated to have earned money.
-    ad.OnAdPaid += (AdValue adValue) =>
     {
-        Debug.Log(String.Format("Rewarded ad paid {0} {1}.",
-            adValue.Value,
-            adValue.CurrencyCode));
-    };
-    // Raised when an impression is recorded for an ad.
-    ad.OnAdImpressionRecorded += () =>
-    {
-        Debug.Log("Rewarded ad recorded an impression.");
-    };
-    // Raised when a click is recorded for an ad.
-    ad.OnAdClicked += () =>
-    {
-        Debug.Log("Rewarded ad was clicked.");
-    };
-    // Raised when an ad opened full screen content.
-    ad.OnAdFullScreenContentOpened += () =>
-    {
-        Debug.Log("Rewarded ad full screen content opened.");
-    };
-    // Raised when the ad closed full screen content.
-    ad.OnAdFullScreenContentClosed += () =>
-    {
-        Debug.Log("Rewarded ad full screen content closed.");
-    };
-    // Raised when the ad failed to open full screen content.
-    ad.OnAdFullScreenContentFailed += (AdError error) =>
-    {
-        Debug.LogError("Rewarded ad failed to open full screen content " +
-                       "with error : " + error);
-    };
-}
+        // Raised when the ad is estimated to have earned money.
+        ad.OnAdPaid += (AdValue adValue) =>
+        {
+            Debug.Log(String.Format("Rewarded ad paid {0} {1}.",
+                adValue.Value,
+                adValue.CurrencyCode));
+        };
+        // Raised when an impression is recorded for an ad.
+        ad.OnAdImpressionRecorded += () =>
+        {
+            Debug.Log("Rewarded ad recorded an impression.");
+        };
+        // Raised when a click is recorded for an ad.
+        ad.OnAdClicked += () =>
+        {
+            Debug.Log("Rewarded ad was clicked.");
+        };
+        // Raised when an ad opened full screen content.
+        ad.OnAdFullScreenContentOpened += () =>
+        {
+            Debug.Log("Rewarded ad full screen content opened.");
+        };
+        // Raised when the ad closed full screen content.
+        ad.OnAdFullScreenContentClosed += () =>
+        {
+            Debug.Log("Rewarded ad full screen content closed.");
+        };
+        // Raised when the ad failed to open full screen content.
+        ad.OnAdFullScreenContentFailed += (AdError error) =>
+        {
+            Debug.LogError("Rewarded ad failed to open full screen content " +
+                        "with error : " + error);
+        };
+    }
 
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    // Serialize DateTime
+    [Serializable]
+    struct JsonDateTime {
+        public long value;
+        public static implicit operator DateTime(JsonDateTime jdt) {
+            return DateTime.FromFileTime(jdt.value);
+        }
+        public static implicit operator JsonDateTime(DateTime dt) {
+            JsonDateTime jdt = new JsonDateTime();
+            jdt.value = dt.ToFileTime();
+            return jdt;
+        }
     }
 }

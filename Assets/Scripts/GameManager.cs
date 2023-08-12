@@ -96,12 +96,6 @@ public class GameManager : MonoBehaviour
 
 
 
-        // AFK gold
-        DateTime savedExitTime = JsonUtility.FromJson<JsonDateTime>(data.savedExitTime);
-        AfkGold(savedExitTime);
-
-
-
         // Auto clicker - Call click function every 1 second
         InvokeRepeating("AutoClick", 1.0f, 1.0f);
 
@@ -250,7 +244,7 @@ public class GameManager : MonoBehaviour
         musicVolume = setMusicVolume * masterVolume;
     }
 
-    void AfkGold (DateTime savedTime)
+    public void AfkGold (DateTime savedTime)
     {
         // afkModifier = data.savedAfkModifier
         currentTime = System.DateTime.Now;
@@ -275,6 +269,7 @@ public class GameManager : MonoBehaviour
     public void ClaimAfkGold()
     {
         gold += afkIncome;
+        // Update gold UI
         goldText.text = ConvertNum(gold);
         Debug.Log("Income claimed: " + afkIncome);
         UIM.GetComponent<UIManager>().ClosePopup();
@@ -282,6 +277,7 @@ public class GameManager : MonoBehaviour
     public void ClaimBoostedAfkGold()
     {
         gold += (afkIncome*2);
+        // Update gold UI
         goldText.text = ConvertNum(gold);
         Debug.Log("Boosted income claimed: " + afkIncome*2);
         UIM.GetComponent<UIManager>().ClosePopup();

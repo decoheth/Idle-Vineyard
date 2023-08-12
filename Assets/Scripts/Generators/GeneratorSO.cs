@@ -7,12 +7,9 @@ public class GeneratorSO : ScriptableObject
 {
 
     public string title;
-    public double cost;
-    public double rate;
+    public double baseCost;
+    public double baseRate;
     public double costMod;
-    public double rateMod;
     public Sprite image;
-    public int count;
-    public double totalRate;
     public int genFlag;
 }

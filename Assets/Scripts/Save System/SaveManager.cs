@@ -34,11 +34,13 @@ public class SaveManager: MonoBehaviour
         double stock = CM.GetComponent<CaskManager>().stock;
         var exitTime = JsonUtility.ToJson((JsonDateTime) System.DateTime.Now);
         double afkModifier = GM.GetComponent<GameManager>().afkModifier;
+        
         // Get generator levels
-        int[] genLevel = new int[7] {4,1,1,1,1,0,0};
-        //int[] genLevel = UM.GetComponent<UpgradeManager>().generatorSO.count;
-        //Debug.Log(UM.GetComponent<UpgradeManager>().generatorPanels);
-
+        int[] genLevel = new int[UM.GetComponent<UpgradeManager>().generatorSO.Length];
+        for (int i = 0; i < UM.GetComponent<UpgradeManager>().generatorSO.Length; i++)
+        {
+            genLevel[i] = UM.GetComponent<UpgradeManager>().generatorPanels[i].countVal;
+        }
 
 
         SaveData data = new SaveData(gold,rate,genLevel, stock, exitTime, valueBottle, afkModifier);
@@ -58,7 +60,7 @@ public class SaveManager: MonoBehaviour
 
         //Debug.Log("Saving data at " + path);
         string json = JsonUtility.ToJson(saveData);
-        Debug.Log(json);
+        //Debug.Log(json);
 
         using StreamWriter writer = new StreamWriter(path);
         writer.Write(json);
@@ -68,7 +70,12 @@ public class SaveManager: MonoBehaviour
     {
         // Create blank save data file
 
-        int[] genLevel = new int[7] {0,0,0,0,0,0,0};
+        // Generator levels
+        int[] genLevel = new int[UM.GetComponent<UpgradeManager>().generatorSO.Length];
+        for (int i = 0; i < UM.GetComponent<UpgradeManager>().generatorSO.Length; i++)
+        {
+            genLevel[i] = 0;
+        }
         
         var exitTime = JsonUtility.ToJson((JsonDateTime) System.DateTime.Now);
 
