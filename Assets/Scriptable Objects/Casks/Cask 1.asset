@@ -17,4 +17,4 @@ MonoBehaviour:
   image: {fileID: 21300000, guid: 052f906ffdc3dc1459594c4476fd49b7, type: 3}
   auto: 0
   button: {fileID: 0}
-  output: 3
+  output: 5

@@ -13,11 +13,8 @@ MonoBehaviour:
   m_Name: 1
   m_EditorClassIdentifier: 
   title: Barrels
-  cost: 60
-  rate: 20
-  costMod: 1.15
-  rateMod: 1
+  baseCost: 60
+  baseRate: 20
+  costMod: 0.15
   image: {fileID: 21300000, guid: cfd9455b2141d7246b97f0cc4118a8d3, type: 3}
-  count: 0
-  totalRate: 0
   genFlag: 1

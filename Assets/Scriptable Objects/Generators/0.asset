@@ -13,10 +13,8 @@ MonoBehaviour:
   m_Name: 0
   m_EditorClassIdentifier: 
   title: Grape Vines
-  cost: 4
-  rate: 1.67
-  costMod: 1.07
-  rateMod: 1
+  baseCost: 4
+  baseRate: 1.67
+  costMod: 0.07
   image: {fileID: 21300000, guid: cfd9455b2141d7246b97f0cc4118a8d3, type: 3}
-  count: 0
-  totalRate: 0
+  genFlag: 0

@@ -13,11 +13,8 @@ MonoBehaviour:
   m_Name: 5
   m_EditorClassIdentifier: 
   title: Advertising
-  cost: 1244160
-  rate: 2100
-  costMod: 1.11
-  rateMod: 1
+  baseCost: 1244160
+  baseRate: 21000
+  costMod: 0.11
   image: {fileID: 21300000, guid: 052f906ffdc3dc1459594c4476fd49b7, type: 3}
-  count: 0
-  totalRate: 0
   genFlag: 5

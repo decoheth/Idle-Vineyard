@@ -13,11 +13,8 @@ MonoBehaviour:
   m_Name: 4
   m_EditorClassIdentifier: 
   title: Bottling Machine
-  cost: 103680
-  rate: 2160
-  costMod: 1.12
-  rateMod: 1
+  baseCost: 103680
+  baseRate: 2160
+  costMod: 0.12
   image: {fileID: 21300000, guid: d77c1becc97990146869730a618e49e4, type: 3}
-  count: 0
-  totalRate: 0
   genFlag: 4
