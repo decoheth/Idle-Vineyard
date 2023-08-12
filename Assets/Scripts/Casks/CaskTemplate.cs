@@ -14,7 +14,7 @@ public class CaskTemplate : MonoBehaviour
     public float rate;
     public Slider progressBar;
     public float progress;
-    public int auto;
+    public bool auto;
     public Image caskIcon;
     public DateTime startTime;
     public Button caskButton;

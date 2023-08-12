@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour
     public GameObject SM;
     // UI Manager
     public GameObject UIM;
+    // Generator Manager
+    public GameObject GenM;
 
     [Header("Click Effects")]
 
@@ -195,7 +197,7 @@ public class GameManager : MonoBehaviour
         statTotalGold += gold;
 
         // Call upgrade menu function to check if item is purchaseable
-        UM.GetComponent<UpgradeManager>().CheckPurchaseable();
+        GenM.GetComponent<GeneratorManager>().CheckPurchaseable();
     }
 
     public void RemoveGold(double amount) 
@@ -204,7 +206,7 @@ public class GameManager : MonoBehaviour
         goldText.text = ConvertNum(gold);
 
         // Call upgrade menu function to check if item is purchaseable
-        UM.GetComponent<UpgradeManager>().CheckPurchaseable();
+        GenM.GetComponent<GeneratorManager>().CheckPurchaseable();
     }
 
     public void IncreaseAutoRateMod(double rate)

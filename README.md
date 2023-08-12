@@ -6,18 +6,6 @@ Developed for Android by decoheth.
 
 ## Changelog
 
-### 0.2.2
-#### X/08/2023
+### v0.2.2
 
-Added:
-*
-*
-
-Changed:
-*
-*
-
-Removed:
-*
-*
 

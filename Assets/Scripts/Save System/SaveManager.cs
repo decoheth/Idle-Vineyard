@@ -19,6 +19,7 @@ public class SaveManager: MonoBehaviour
     public GameObject GM;
     public GameObject CM;
     public GameObject UM;
+    public GameObject GenM;
     
 
     void Awake()
@@ -34,12 +35,12 @@ public class SaveManager: MonoBehaviour
         double stock = CM.GetComponent<CaskManager>().stock;
         var exitTime = JsonUtility.ToJson((JsonDateTime) System.DateTime.Now);
         double afkModifier = GM.GetComponent<GameManager>().afkModifier;
-        
+
         // Get generator levels
-        int[] genLevel = new int[UM.GetComponent<UpgradeManager>().generatorSO.Length];
-        for (int i = 0; i < UM.GetComponent<UpgradeManager>().generatorSO.Length; i++)
+        int[] genLevel = new int[GenM.GetComponent<GeneratorManager>().generatorSO.Length];
+        for (int i = 0; i < GenM.GetComponent<GeneratorManager>().generatorSO.Length; i++)
         {
-            genLevel[i] = UM.GetComponent<UpgradeManager>().generatorPanels[i].countVal;
+            genLevel[i] = GenM.GetComponent<GeneratorManager>().generatorPanels[i].countVal;
         }
 
 
@@ -71,8 +72,8 @@ public class SaveManager: MonoBehaviour
         // Create blank save data file
 
         // Generator levels
-        int[] genLevel = new int[UM.GetComponent<UpgradeManager>().generatorSO.Length];
-        for (int i = 0; i < UM.GetComponent<UpgradeManager>().generatorSO.Length; i++)
+        int[] genLevel = new int[GenM.GetComponent<GeneratorManager>().generatorSO.Length];
+        for (int i = 0; i < GenM.GetComponent<GeneratorManager>().generatorSO.Length; i++)
         {
             genLevel[i] = 0;
         }

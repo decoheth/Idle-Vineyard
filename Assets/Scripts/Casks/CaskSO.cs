@@ -10,8 +10,7 @@ public class CaskSO : ScriptableObject
     public string title;
     public float time;
     public Sprite image;
-    // change to bool
-    public int auto;
+    public bool auto;
     public Button button;
     public double output;
 

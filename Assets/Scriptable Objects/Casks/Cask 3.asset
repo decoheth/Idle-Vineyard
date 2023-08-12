@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 11102940ea9e28a449d6afb42a4524cc, type: 3}
-  m_Name: Cask 0
+  m_Name: Cask 3
   m_EditorClassIdentifier: 
-  title: Rose
-  time: 2
-  image: {fileID: 21300000, guid: 052f906ffdc3dc1459594c4476fd49b7, type: 3}
+  title: Whiskey
+  time: 30
+  image: {fileID: 21300000, guid: c30c3ba4b1c1a7f4da24a42afa1e4a70, type: 3}
   auto: 0
   button: {fileID: 0}
-  output: 1
+  output: 100
