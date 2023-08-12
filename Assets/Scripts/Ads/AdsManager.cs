@@ -10,7 +10,6 @@ public class AdsManager : MonoBehaviour
     RewardedAd rewardedAd;
     public string _adUnitId;
     public GameObject GM;
-    public GameObject SM;
 
     // Start is called before the first frame update
     void Start()
@@ -19,12 +18,7 @@ public class AdsManager : MonoBehaviour
         {
             LoadRewardedAd();
         });
-        
-        // Load Saved Data
-        SaveData data = SM.GetComponent<SaveManager>().LoadGame();
-        // Create afk popup once ads initialized
-        DateTime savedExitTime = JsonUtility.FromJson<JsonDateTime>(data.savedExitTime);
-        GM.GetComponent<GameManager>().AfkGold(savedExitTime);
+
     }
 
   public void LoadRewardedAd()

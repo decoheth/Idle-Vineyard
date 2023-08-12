@@ -64,14 +64,15 @@ public class GameManager : MonoBehaviour
     AudioSource audioSource;
 
     [Header("Stats")]
-    public double totalGold;
-    public double totalVintageGold;
-    public double highestGold;
-    public double playtime;
-    public int vintageCount;
+    public double statTotalGold;
+    public double statTotalVintageGold;
+    public double statHighestGold;
+    public double statPlaytime;
+    public int statVintageCount;
 
     [Header("AFK Idle")]
     public double afkModifier;
+    public double afkThreshold;
     private DateTime currentTime;
     private double afkTime;
     double afkIncome;
@@ -105,6 +106,11 @@ public class GameManager : MonoBehaviour
         position = new Vector3(0, 0, 0); 
         // Load audio source
         audioSource = GetComponent<AudioSource>();
+
+
+        // Create afk popup once ads initialized
+        DateTime savedExitTime = JsonUtility.FromJson<JsonDateTime>(data.savedExitTime);
+        AfkGold(savedExitTime);
     }
 
     void Awake() 
@@ -186,6 +192,8 @@ public class GameManager : MonoBehaviour
         gold += amount;
         goldText.text = ConvertNum(gold);
 
+        statTotalGold += gold;
+
         // Call upgrade menu function to check if item is purchaseable
         UM.GetComponent<UpgradeManager>().CheckPurchaseable();
     }
@@ -249,8 +257,8 @@ public class GameManager : MonoBehaviour
         // afkModifier = data.savedAfkModifier
         currentTime = System.DateTime.Now;
         afkTime = (currentTime - savedTime).TotalMinutes;
-        // If afktime is above afk threshold (2 mins)
-        if(afkTime > 2)
+        // If afktime is above afk threshold
+        if(afkTime > afkThreshold)
         {
             // Cap time at 72 hours (4320 mins)
             if(afkTime >= 4320)
@@ -269,6 +277,7 @@ public class GameManager : MonoBehaviour
     public void ClaimAfkGold()
     {
         gold += afkIncome;
+        statTotalGold += gold;
         // Update gold UI
         goldText.text = ConvertNum(gold);
         Debug.Log("Income claimed: " + afkIncome);
@@ -277,6 +286,7 @@ public class GameManager : MonoBehaviour
     public void ClaimBoostedAfkGold()
     {
         gold += (afkIncome*2);
+        statTotalGold += gold;
         // Update gold UI
         goldText.text = ConvertNum(gold);
         Debug.Log("Boosted income claimed: " + afkIncome*2);
